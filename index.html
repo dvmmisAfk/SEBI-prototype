@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEBI Investor Education Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #22d3ee;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .lang-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            background: white;
+            color: var(--dark);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 20px 0;
+        }
+        
+        .section {
+            display: none;
+            padding: 30px 0;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        /* Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .quick-actions {
+            margin: 40px 0;
+        }
+        
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .action-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        /* Learning Modules */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .module-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--success);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Knowledge Sections */
+        .knowledge-block {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+        }
+        
+        .knowledge-block h4 {
+            margin: 20px 0 15px;
+            color: var(--primary);
+        }
+        
+        .knowledge-block ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .knowledge-block li {
+            margin-bottom: 8px;
+        }
+        
+        /* Practice Section */
+        .trading-interface {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+        }
+        
+        .portfolio-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .portfolio-stats div {
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+        
+        .stock-search {
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .stock-search input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 10;
+        }
+        
+        .search-result {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--light-gray);
+            cursor: pointer;
+        }
+        
+        .search-result:hover {
+            background: var(--light);
+        }
+        
+        .order-form {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .order-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .order-form input, .order-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+        }
+        
+        .btn-trade {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .holdings {
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        th {
+            background: var(--light);
+            font-weight: 600;
+        }
+        
+        .positive {
+            color: var(--success);
+        }
+        
+        .negative {
+            color: var(--danger);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 10px;
+            padding: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Algorithmic Trading Patterns Styles */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .pattern-card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .pattern-name {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .candle-visual {
+            height: 150px;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bullish {
+            border-left: 4px solid var(--success);
+        }
+        
+        .bearish {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .candle-body {
+            position: absolute;
+            width: 30px;
+            background: var(--success);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .candle-wick {
+            position: absolute;
+            width: 2px;
+            background: var(--dark);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .reversal-bearish .candle-body {
+            background: var(--danger);
+        }
+        
+        .pattern-desc {
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .importance {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .importance i {
+            color: var(--warning);
+        }
+        
+        .key-points {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .key-points h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+        
+        .warning-note {
+            background: #fef3c7;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .warning-note h3 {
+            color: var(--warning);
+            margin-bottom: 10px;
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .quiz-question:last-child {
+            border-bottom: none;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(37, 99, 235, 0.1);
+        }
+        
+        .quiz-option input {
+            cursor: pointer;
+        }
+
+        /* Risk Assessment Module Styles */
+        .risk-tool {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        .tool-question {
+            margin-bottom: 20px;
+        }
+        .tool-question label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .tool-question select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+        }
+        .calculate-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            display: block;
+            margin: 20px auto;
+        }
+        .calculate-btn:hover {
+            background: var(--primary-dark);
+        }
+        .risk-result {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        .result-low {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .result-medium {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+        .result-high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .quiz-answer {
+            padding: 15px;
+            background: #dcfce7;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .show-answer {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .show-answer:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .stats-grid, .action-cards, .modules-grid, .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo"><i class="fas fa-chart-line"></i> SEBI Education Hub</h1>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                <li><a href="#learn" class="nav-link">Learning</a></li>
+                <li><a href="#sebi-knowledge" class="nav-link">SEBI Law</a></li>
+                <li><a href="#algorithmic" class="nav-link">Algo Trading</a></li>
+                <li><a href="#practice" class="nav-link">Practice</a></li>
+            </ul>
+            <li><a href="#risk-assessment" class="nav-link">Risk Assessment</a></li>
+            <div class="lang-select">
+                <label for="language">Language:</label>
+                <select id="language" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="mr">मराठी</option>
+                    <option value="ta">தமிழ்</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <h2>Welcome to Your Learning Journey</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Lessons Completed</h3>
+                        <p class="stat-number" id="lessonsCompleted">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Quiz Score</h3>
+                        <p class="stat-number" id="quizScore">0%</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-coins"></i>
+                        <h3>Virtual Portfolio</h3>
+                        <p class="stat-number" id="portfolioValue">₹1,00,000</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Learning Streak</h3>
+                        <p class="stat-number" id="learningStreak">0 days</p>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <h3>Quick Start</h3>
+                    <div class="action-cards">
+                        <div class="action-card" onclick="startLesson('basics')">
+                            <i class="fas fa-play-circle"></i>
+                            <h4>Stock Market Basics</h4>
+                            <p>Start your journey with fundamentals</p>
+                        </div>
+                        <div class="action-card" onclick="startLesson('risk')">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Risk Management</h4>
+                            <p>Learn to protect your investments</p>
+                        </div>
+                        <div class="action-card" onclick="startVirtualTrading()">
+                            <i class="fas fa-exchange-alt"></i>
+                            <h4>Virtual Trading</h4>
+                            <p>Practice with ₹1,00,000 virtual money</p>
+                        </div>
+                        <div class="action-card" onclick="startLesson('algo')">
+                            <i class="fas fa-robot"></i>
+                            <h4>Algorithmic Trading</h4>
+                            <p>Learn automated trading strategies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learn Section -->
+        <section id="learn" class="section">
+            <div class="container">
+                <h2>Interactive Learning Modules</h2>
+                <div class="modules-grid">
+                    <div class="module-card" data-module="basics">
+                        <div class="module-icon">🏛️</div>
+                        <h3>Stock Market Basics</h3>
+                        <p>Understand what stocks are, how markets work, and key terminology</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn-primary" onclick="openModule('basics')">Start Learning</button>
+                    </div>
+                    <div class="module-card" data-module="risk">
+                        <div class="module-icon">⚠️</div>
+                        <h3>Risk Assessment</h3>
+                        <p>Learn to evaluate and manage investment risks effectively</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn-primary" onclick="openModule('risk')">Start Learning</button>
+                    </div>
+                    <div class="module-card" data-module="algo">
+                        <div class="module-icon">🤖</div>
+                        <h3>Algorithmic Trading</h3>
+                        <p>Explore automated trading strategies and high-frequency trading concepts</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn-primary" onclick="openModule('algo')">Start Learning</button>
+                    </div>
+                    <div class="module-card" data-module="portfolio">
+                        <div class="module-icon">📊</div>
+                        <h3>Portfolio Diversification</h3>
+                        <p>Master the art of building balanced investment portfolios</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn-primary" onclick="openModule('portfolio')">Start Learning</button>
+                    </div>
+                    <div class="module-card" data-module="candlestick">
+                        <div class="module-icon">🕯️</div>
+                        <h3>Candlestick Patterns</h3>
+                        <p>Basics to advanced candlestick knowledge with visual cues</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn-primary" onclick="openModule('candlestick')">Start Learning</button>
+                    </div>
+                    <div class="module-card" data-module="sebilaw">
+                        <div class="module-icon">🏛️</div>
+                        <h3>SEBI Law</h3>
+                        <p>Basics to advanced SEBI regulations and investor protection</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn-primary" onclick="openModule('sebilaw')">Start Learning</button>
+                    </div>
+                    <div class="module-card" data-module="stockmarket">
+                        <div class="module-icon">📈</div>
+                        <h3>Stock Market Knowledge</h3>
+                        <p>From basics to advanced concepts, strategies, and laws</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn-primary" onclick="openModule('stockmarket')">Start Learning</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEBI Knowledge Section -->
+        <section id="sebi-knowledge" class="section">
+            <div class="container">
+                <h2>SEBI Law: Basics to Advanced Knowledge 🏛️🔒📖</h2>
+                <div class="knowledge-block">
+                    <p>The Securities and Exchange Board of India (SEBI) is the primary regulator of the securities market in India 🇮🇳. Established in 1988 and given statutory powers in 1992, its core objectives are:</p>
+                    <ul>
+                        <li>Protecting the interests of investors in securities 🛡️💰</li>
+                        <li>Promoting the development of the securities market 🌱📈</li>
+                        <li>Regulating the securities market 📏📊</li>
+                    </ul>
+                    <h4>1. Basics of SEBI's Role and Powers 🚨</h4>
+                    <ul>
+                        <li>Quasi-Legislative: Draft regulations ✍️📜</li>
+                        <li>Quasi-Executive: Investigate and enforce 🕵️‍♂️</li>
+                        <li>Quasi-Judicial: Pass rulings, impose penalties ⚖️</li>
+                        <li>Market Intermediaries: All must be registered 🤝</li>
+                        <li>Investor Education: SEBI educates about risks and rights 🧑‍🏫💡</li>
+                        <li>Fraud Prevention: Prohibits unfair trade practices 🚫🔪</li>
+                    </ul>
+                    <h4>2. Key SEBI Regulations for Retail Investors 📖</h4>
+                    <ul>
+                        <li>IPOs & FPOs: 🚀💰, Disclosure (DRHP) 📑, Pricing 🏷️, MPS 👥</li>
+                        <li>LODR: Continuous disclosures 📢📊, Corporate governance 🧑‍💼✅</li>
+                        <li>Prohibition of Insider Trading: 🤫🚫</li>
+                        <li>Fraudulent & Unfair Trade Practices: ⚖️❌</li>
+                        <li>Mutual Funds: Transparency, unit holder protection 🤝💸</li>
+                        <li>IPEF: Investor education/protection fund 🎓🛡️</li>
+                        <li>Ombudsman: Complaint resolution 🧑‍⚖️</li>
+                    </ul>
+                    <h4>3. Advanced SEBI Regulations & Focus Areas 🎯🔍</h4>
+                    <ul>
+                        <li>Derivatives Market: Tightening norms 🎲</li>
+                        <li>Margin Obligations: Pledge/re-pledge 🤝</li>
+                        <li>Algorithmic Trading: Fair access, prevent manipulation 🤖⚡</li>
+                        <li>FinFluencers: Regulating financial influencers 📱🗣️</li>
+                        <li>Cybersecurity: Robust frameworks 💻🔒</li>
+                        <li>ESG Disclosures: Responsible investing 🌍🌱</li>
+                        <li>Ease of Doing Business: Easing IPO norms 🚀</li>
+                        <li>T+1 Settlement: Faster settlement ⚡📅</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithmic Trading Section -->
+        <section id="algorithmic" class="section">
+            <div class="container">
+                <h2>Algorithmic Trading with Candlestick Patterns</h2>
+                <div class="knowledge-block">
+                    <p>Algorithmic trading uses computer programs to execute trades based on predefined rules and conditions. When combined with candlestick patterns, algorithms can identify potential trading opportunities with speed and precision that humans can't match.</p>
+                    
+                    <p>In algorithmic trading, candlestick patterns serve as triggers for trade entries, exits, or as confirmation signals alongside other technical indicators. The patterns are coded into trading algorithms to automatically execute trades when specific conditions are met.</p>
+                    
+                    <div class="key-points">
+                        <h3>Why Combine Algorithms with Candlestick Patterns?</h3>
+                        <ul>
+                            <li><strong>Speed:</strong> Algorithms can scan thousands of securities simultaneously for pattern formations</li>
+                            <li><strong>Emotion-free trading:</strong> Removes psychological biases from trading decisions</li>
+                            <li><strong>Backtesting capability:</strong> Historical performance of patterns can be quantitatively analyzed</li>
+                            <li><strong>Precision:</strong> Consistent execution according to predefined rules</li>
+                            <li><strong>Multi-timeframe analysis:</strong> Algorithms can monitor patterns across different timeframes simultaneously</li>
+                        </ul>
+                    </div>
+
+                    <h3 class="section-subtitle">How Algorithmic Trading Works with Candlestick Patterns</h3>
+                    <p>In candlestick pattern algorithmic trading, the system is programmed to:</p>
+                    <ol>
+                        <li>Continuously monitor price data and form candlesticks in real-time</li>
+                        <li>Identify when specific candlestick patterns are forming or have completed</li>
+                        <li>Execute trades based on predefined rules when patterns are confirmed</li>
+                        <li>Manage risk with stop-loss and take-profit orders</li>
+                        <li>Monitor open positions and close them according to exit rules</li>
+                    </ol>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Description</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pattern Recognition</td>
+                                    <td>Algorithm identifies specific candlestick patterns</td>
+                                    <td>Hammer, Engulfing, Doji patterns</td>
+                                </tr>
+                                <tr>
+                                    <td>Confirmation</td>
+                                    <td>Uses additional indicators to confirm signals</td>
+                                    <td>Volume, RSI, Moving Averages</td>
+                                </tr>
+                                <tr>
+                                    <td>Execution</td>
+                                    <td>Places trades automatically when criteria are met</td>
+                                    <td>Market orders, limit orders</td>
+                                </tr>
+                                <tr>
+                                    <td>Risk Management</td>
+                                    <td>Manages position size and sets protective stops</td>
+                                    <td>2% risk per trade, trailing stops</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="section-subtitle">Common Algorithmic Candlestick Patterns</h3>
+                    <p>These are some of the most reliable candlestick patterns used in algorithmic trading systems. Each pattern has specific rules for identification and trading.</p>
+                    
+                    <div class="pattern-grid">
+                        <div class="pattern-card">
+                            <h3 class="pattern-name">Engulfing Pattern Algorithm</h3>
+                            <div class="candle-visual">
+                                <div class="candle-wick" style="height: 20px; top: 0;"></div>
+                                <div class="candle-body" style="height: 30px; top: 20px; background: var(--danger);"></div>
+                                <div class="candle-wick" style="height: 20px; top: 50px;"></div>
+                                <div class="candle-wick" style="height: 15px; top: 70px;"></div>
+                                <div class="candle-body" style="height: 50px; top: 85px;"></div>
+                                <div class="candle-wick" style="height: 15px; top: 135px;"></div>
+                            </div>
+                            <p class="pattern-desc">The algorithm looks for a small candle followed by a larger candle that completely "engulfs" the previous one. Bullish when it occurs in a downtrend, bearish in an uptrend.</p>
+                            <div class="importance">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>High Reliability</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pattern-card">
+                            <h3 class="pattern-name">Hammer Algorithm</h3>
+                            <div class="candle-visual bullish">
+                                <div class="candle-wick" style="height: 20px; top: 0;"></div>
+                                <div class="candle-body" style="height: 15px; top: 20px;"></div>
+                                <div class="candle-wick" style="height: 75px; top: 35px;"></div>
+                            </div>
+                            <p class="pattern-desc">The algorithm identifies a candle with a small body and long lower wick after a downtrend. This signals potential reversal. The algorithm enters long positions with confirmation.</p>
+                            <div class="importance">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>High Reliability</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pattern-card">
+                            <h3 class="pattern-name">Doji Star Algorithm</h3>
+                            <div class="candle-visual">
+                                <div class="candle-wick" style="height: 30px; top: 0;"></div>
+                                <div class="candle-body" style="height: 5px; top: 30px; background: var(--danger);"></div>
+                                <div class="candle-wick" style="height: 30px; top: 35px;"></div>
+                                <div class="candle-wick" style="height: 25px; top: 65px;"></div>
+                                <div class="candle-body" style="height: 3px; top: 90px;"></div>
+                                <div class="candle-wick" style="height: 25px; top: 93px;"></div>
+                            </div>
+                            <p class="pattern-desc">The algorithm detects a doji (open ≈ close) following a long candle. This indicates indecision and potential trend reversal. Often used as a signal to exit positions or prepare for reversal.</p>
+                            <div class="importance">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>Medium Reliability</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <h3>Algorithmic Trading Quiz</h3>
+                        <div class="quiz-question">
+                            <div class="question-text">1. Which candlestick pattern typically indicates a potential reversal after a downtrend?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="a"> Shooting Star
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="b"> Hammer
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="c"> Hanging Man
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q1" value="d"> Dark Cloud Cover
+                                </label>
+                            </div>
+                            <button class="show-answer" onclick="toggleAnswer(1)">Show Answer</button>
+                            <div class="quiz-answer" id="answer1">
+                                <strong>Correct Answer:</strong> b) Hammer<br>
+                                <strong>Explanation:</strong> The Hammer is a bullish reversal pattern that forms after a price decline. It has a small body and a long lower wick, indicating that sellers pushed prices lower during the session, but buyers managed to push the price back up near the opening price.
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <div class="question-text">2. Which of the following is a bearish reversal pattern?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="a"> Piercing Pattern
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="b"> Morning Star
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="c"> Evening Star
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q2" value="d"> Bullish Engulfing
+                                </label>
+                            </div>
+                            <button class="show-answer" onclick="toggleAnswer(2)">Show Answer</button>
+                            <div class="quiz-answer" id="answer2">
+                                <strong>Correct Answer:</strong> c) Evening Star<br>
+                                <strong>Explanation:</strong> The Evening Star is a three-candle bearish reversal pattern that appears at the top of an uptrend. It consists of a large bullish candle, a small-bodied candle (indicating indecision), and a large bearish candle that closes well into the body of the first candle.
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <div class="question-text">3. What does a Doji candlestick primarily indicate?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="a"> Strong bullish momentum
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="b"> Strong bearish momentum
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="c"> Market indecision
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q3" value="d"> Continuation of the current trend
+                                </label>
+                            </div>
+                            <button class="show-answer" onclick="toggleAnswer(3)">Show Answer</button>
+                            <div class="quiz-answer" id="answer3">
+                                <strong>Correct Answer:</strong> c) Market indecision<br>
+                                <strong>Explanation:</strong> A Doji forms when the opening and closing prices are virtually equal. The pattern indicates indecision in the market, with neither bulls nor bears gaining control. It often signals a potential trend reversal, especially when it appears after a prolonged advance or decline.
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <div class="question-text">4. In algorithmic trading, why are candlestick patterns particularly valuable?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="a"> They guarantee profitable trades
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="b"> They are easy to code into trading algorithms
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="c"> They provide clear, rule-based entry and exit signals
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q4" value="d"> They work equally well in all market conditions
+                                </label>
+                            </div>
+                            <button class="show-answer" onclick="toggleAnswer(4)">Show Answer</button>
+                            <div class="quiz-answer" id="answer4">
+                                <strong>Correct Answer:</strong> c) They provide clear, rule-based entry and exit signals<br>
+                                <strong>Explanation:</strong> Candlestick patterns are valuable in algorithmic trading because they provide clearly defined, rule-based signals that can be programmed into trading systems. Algorithms can scan multiple securities simultaneously to identify these patterns and execute trades based on predefined criteria without emotional interference.
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <div class="question-text">5. Which pattern would an algorithm look for to identify a potential bullish reversal after a downtrend?</div>
+                            <div class="quiz-options">
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="a"> Shooting Star
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="b"> Hanging Man
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="c"> Bullish Engulfing
+                                </label>
+                                <label class="quiz-option">
+                                    <input type="radio" name="q5" value="d"> Dark Cloud Cover
+                                </label>
+                            </div>
+                            <button class="show-answer" onclick="toggleAnswer(5)">Show Answer</button>
+                            <div class="quiz-answer" id="answer5">
+                                <strong>Correct Answer:</strong> c) Bullish Engulfing<br>
+                                <strong>Explanation:</strong> The Bullish Engulfing pattern is a two-candle reversal pattern that appears at the bottom of a downtrend. The second candle completely "engulfs" the body of the previous candle, indicating that buyers have overwhelmed sellers and a potential reversal to the upside may be imminent.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-note">
+                        <h3><i class="fas fa-lightbulb"></i> Pro Tip</h3>
+                        <p>For effective algorithmic trading with candlestick patterns, always combine pattern recognition with other confirming indicators like volume, moving averages, or RSI. This increases the probability of successful trades and helps filter out false signals.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Candlestick Patterns Section -->
+        <section id="candlestick" class="section">
+            <div class="container">
+                <h2>Candlestick Patterns: Basics to Advanced Knowledge 🕯️📈📖</h2>
+                <div class="knowledge-block">
+                    <p>Candlestick charts originated in 18th-century Japan 🇯🇵 to track rice prices 🍚 and were introduced to the Western world by Steve Nison. They are a powerful visual tool for technical analysis 📊, offering insights into market sentiment, price action, and potential reversals or continuations.</p>
+                    <h4>1. Candlestick Basics 📚</h4>
+                    <ul>
+                        <li>Each candlestick represents price movement over a specific time period ⏰ (e.e.g., 1 minute, 1 hour, 1 day, 1 week).</li>
+                        <li>Open Price ➡️, High Price ⬆️, Low Price ⬇️, Close Price ⬅️</li>
+                        <li>Components: <b>Real Body 🏗️</b> (range between open and close), <b>Green/White Body 🟢🚀</b> (bullish), <b>Red/Black Body 🔴📉</b> (bearish), <b>Wicks/Shadows</b> (upper/lower, show volatility)</li>
+                    </ul>
+                    <h4>2. Basic Candlestick Patterns 🧩</h4>
+                    <ul>
+                        <li><b>Doji 🧘‍♀️</b>: Indecision. Open ≈ Close. Types: Standard, Long-legged, Gravestone (bearish), Dragonfly (bullish).</li>
+                        <li><b>Hammer 🔨⬆️</b>: Bullish reversal at downtrend bottom. Long lower wick.</li>
+                        <li><b>Inverted Hammer 💡⬆️</b>: Bullish reversal, long upper wick.</li>
+                        <li><b>Hanging Man 🕴️⬇️</b>: Bearish reversal at uptrend top.</li>
+                        <li><b>Shooting Star 🌠⬇️</b>: Bearish reversal, long upper wick.</li>
+                        <li><b>Marubozu 🚂💨</b>: No wicks, strong trend. 🟢 (bullish), 🔴 (bearish).</li>
+                        <li><b>Spinning Top 🔄</b>: Indecision, small body, long wicks.</li>
+                        <li><b>Engulfing 🤝</b>: Two-candle reversal. Bullish: 🐂, Bearish: 🐻</li>
+                        <li><b>Harami 🤰</b>: Indecision. Bullish/Bearish based on color order.</li>
+                        <li><b>Piercing Line ✂️⬆️</b>: Bullish reversal, two-candle pattern.</li>
+                        <li><b>Dark Cloud Cover ⛈️⬇️</b>: Bearish reversal, two-candle pattern.</li>
+                    </ul>
+                    <h4>3. Advanced Patterns 🧠✨</h4>
+                    <ul>
+                        <li><b>Morning Star 🌅⬆️</b>: Bullish reversal, three candles.</li>
+                        <li><b>Evening Star 🌃⬇️</b>: Bearish reversal, three candles.</li>
+                        <li><b>Three White Soldiers 💂‍♂️💂‍♂️💂‍♂️⬆️</b>: Bullish continuation.</li>
+                        <li><b>Three Black Crows 🦅🦅🦅⬇️</b>: Bearish continuation.</li>
+                        <li><b>Three Inside Up/Down 📦</b>: Three-candle reversal.</li>
+                        <li><b>Abandoned Baby 👶</b>: Strong reversal, Doji isolated by gaps.</li>
+                    </ul>
+                    <h4>4. Key Considerations ✅💡</h4>
+                    <ul>
+                        <li>Confirmation: Look for confirmation from other indicators ➡️✅</li>
+                        <li>Context: Patterns are stronger at support/resistance 🗺️📍</li>
+                        <li>Volume: High volume increases reliability 🔊📈</li>
+                        <li>Time Frame: Longer time frames = stronger signals ⏳</li>
+                        <li>Psychology: Candlesticks show the battle between bulls and bears 🧠⚔️</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Risk Assessment Section -->
+        <section id="risk-assessment" class="section">
+            <div class="container">
+                <h2 class="section-title">Risk Assessment Tool</h2>
+                <p>Use this interactive tool to assess your personal risk tolerance and get recommendations tailored to your investor profile.</p>
+                <div class="risk-tool">
+                    <div class="tool-question">
+                        <label>1. What is your investment time horizon?</label>
+                        <select id="timeHorizon">
+                            <option value="">Select an option</option>
+                            <option value="1">Less than 2 years</option>
+                            <option value="2">2-5 years</option>
+                            <option value="3">5-10 years</option>
+                            <option value="4">More than 10 years</option>
+                        </select>
+                    </div>
+                    <div class="tool-question">
+                        <label>2. How would you react to a 20% portfolio decline in a year?</label>
+                        <select id="reaction">
+                            <option value="">Select an option</option>
+                            <option value="1">Sell all investments</option>
+                            <option value="2">Sell some investments</option>
+                            <option value="3">Hold and wait for recovery</option>
+                            <option value="4">Invest more to average down</option>
+                        </select>
+                    </div>
+                    <div class="tool-question">
+                        <label>3. What is your main investment goal?</label>
+                        <select id="goal">
+                            <option value="">Select an option</option>
+                            <option value="1">Capital preservation</option>
+                            <option value="2">Regular income</option>
+                            <option value="3">Balanced growth</option>
+                            <option value="4">Maximum growth</option>
+                        </select>
+                    </div>
+                    <div class="tool-question">
+                        <label>4. What percentage of your income are you investing?</label>
+                        <select id="incomePercent">
+                            <option value="">Select an option</option>
+                            <option value="1">Less than 10%</option>
+                            <option value="2">10-20%</option>
+                            <option value="3">20-30%</option>
+                            <option value="4">More than 30%</option>
+                        </select>
+                    </div>
+                    <div class="tool-question">
+                        <label>5. How experienced are you with investing?</label>
+                        <select id="experience">
+                            <option value="">Select an option</option>
+                            <option value="1">No experience</option>
+                            <option value="2">Beginner (1-2 years)</option>
+                            <option value="3">Intermediate (3-5 years)</option>
+                            <option value="4">Experienced (5+ years)</option>
+                        </select>
+                    </div>
+                    <button class="calculate-btn" onclick="calculateRisk()">Calculate My Risk Profile</button>
+                    <div id="riskResult" class="risk-result">
+                        <h3>Your Risk Profile: <span id="profileType"></span></h3>
+                        <p id="profileDescription"></p>
+                        <div id="investmentRecommendation"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Practice Section -->
+        <section id="practice" class="section">
+            <div class="container">
+                <h2>Virtual Trading Platform</h2>
+                <div class="trading-interface">
+                    <div class="portfolio-summary">
+                        <h3>Your Virtual Portfolio</h3>
+                        <div class="portfolio-stats">
+                            <div>
+                                <label>Total Value:</label>
+                                <span id="totalValue">₹1,00,000</span>
+                            </div>
+                            <div>
+                                <label>Cash Available:</label>
+                                <span id="cashAvailable">₹1,00,000</span>
+                            </div>
+                            <div>
+                                <label>Day's P&L:</label>
+                                <span id="dayPL" class="positive">+₹0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stock-search">
+                        <input type="text" id="stockSearch" placeholder="Search stocks (e.g., RELIANCE, TCS)" onkeyup="searchStocks()">
+                        <div id="searchResults" class="search-results"></div>
+                    </div>
+                    
+                    <div class="order-form" id="orderForm" style="display: none;">
+                        <h4>Place Order</h4>
+                        <form id="tradeForm">
+                            <input type="hidden" id="symbol">
+                            <label>Quantity:</label>
+                            <input type="number" id="quantity" min="1" required>
+                            <label>Order Type:</label>
+                            <select id="orderType">
+                                <option value="BUY">Buy</option>
+                                <option value="SELL">Sell</option>
+                            </select>
+                            <button type="submit" class="btn-trade">Execute Trade</button>
+                        </form>
+                    </div>
+                    
+                    <div class="holdings">
+                        <h4>Your Holdings</h4>
+                        <table id="holdingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Quantity</th>
+                                    <th>Avg Price</th>
+                                    <th>Current Price</th>
+                                    <th>Total Value</th>
+                                    <th>P&L</th>
+                                </tr>
+                            </thead>
+                            <tbody id="holdingsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Learning Modal -->
+    <div id="learningModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="lessonContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About SEBI Education Hub</h3>
+                <p>This platform is designed to help investors learn about stock markets, SEBI regulations, and investment strategies in a risk-free environment.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#learn">Learning Modules</a></li>
+                    <li><a href="#sebi-knowledge">SEBI Regulations</a></li>
+                    <li><a href="#algorithmic">Algorithmic Trading</a></li>
+                    <li><a href="#practice">Virtual Trading</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@sebieduhub.com</p>
+                <p>Phone: +91 9876543210</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 SEBI Investor Education Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global state management
+        const state = {
+            user: {
+                lessonsCompleted: 0,
+                quizScore: 0,
+                portfolioValue: 100000,
+                cashAvailable: 100000,
+                holdings: {},
+                learningStreak: 0
+            },
+            currentSection: 'dashboard',
+            modules: {
+                basics: { progress: 0, completed: false },
+                risk: { progress: 0, completed: false },
+                algo: { progress: 0, completed: false },
+                portfolio: { progress: 0, completed: false },
+                candlestick: { progress: 0, completed: false },
+                sebilaw: { progress: 0, completed: false },
+                stockmarket: { progress: 0, completed: false }
+            }
+        };
+
+        // Sample stock data (delayed market data simulation)
+        const stockData = {
+            'RELIANCE': { price: 2450.50, change: 2.5, name: 'Reliance Industries' },
+            'TCS': { price: 3250.75, change: -1.2, name: 'Tata Consultancy Services' },
+            'INFY': { price: 1450.25, change: 0.8, name: 'Infosys' },
+            'HDFC': { price: 1650.30, change: -0.5, name: 'HDFC Bank' },
+            'ICICI': { price: 950.80, change: 1.3, name: 'ICICI Bank' },
+            'SBIN': { price: 650.45, change: -0.8, name: 'State Bank of India' },
+            'BHARTIARTL': { price: 850.90, change: 2.1, name: 'Bharti Airtel' },
+            'ITC': { price: 450.60, change: 0.5, name: 'ITC Limited' },
+            'LT': { price: 3200.15, change: 1.8, name: 'Larsen & Toubro' },
+            'ASIANPAINT': { price: 3200.90, change: -0.3, name: 'Asian Paints' }
+        };
+
+        // Learning content
+        const learningContent = {
+            basics: {
+                title: 'Stock Market Basics',
+                lessons: [
+                    {
+                        title: 'What is a Stock?',
+                        content: `
+                            <h3>Understanding Stocks</h3>
+                            <p>A stock represents ownership in a company. When you buy a stock, you become a shareholder, owning a small part of that company.</p>
+                            <h4>Key Points:</h4>
+                            <ul>
+                                <li>Stocks are also called shares or equities</li>
+                                <li>Ownership gives you voting rights in company decisions</li>
+                                <li>Stock value changes based on company performance and market conditions</li>
+                            </ul>
+                            <div class="interactive-example">
+                                <h4>Example:</h4>
+                                <p>If you own 100 shares of Reliance Industries, and Reliance has 1,000,000 total shares, you own 0.01% of the company.</p>
+                            </div>
+                        `,
+                        quiz: [
+                            {
+                                question: 'What does owning a stock represent?',
+                                options: ['A loan to the company', 'Ownership in the company', 'A savings account', 'A bond'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What are stocks also called?',
+                                options: ['Bonds', 'Shares or Equities', 'Mutual Funds', 'Derivatives'],
+                                correct: 1
+                            }
+                        ]
+                    },
+                    {
+                        title: 'How Stock Markets Work',
+                        content: `
+                            <h3>Stock Market Mechanics</h3>
+                            <p>Stock markets are platforms where buyers and sellers trade stocks. In India, we have:</p>
+                            <ul>
+                                <li><strong>BSE (Bombay Stock Exchange)</strong> - Asia's oldest stock exchange</li>
+                                <li><strong>NSE (National Stock Exchange)</strong> - India's largest exchange</li>
+                            </ul>
+                            <h4>Market Participants:</h4>
+                            <ul>
+                                <li>Retail investors (individuals like you)</li>
+                                <li>Institutional investors (mutual funds, pension funds)</li>
+                                <li>Foreign institutional investors (FIIs)</li>
+                            </ul>
+                        `,
+                        quiz: [
+                            {
+                                question: 'Which are the two main stock exchanges in India?',
+                                options: ['BSE and NSE', 'NYSE and NASDAQ', 'LSE and TSE', 'SSE and HKEX'],
+                                correct: 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            risk: {
+                title: 'Risk Assessment',
+                lessons: [
+                    {
+                        title: 'Understanding Investment Risk',
+                        content: `
+                            <h3>Types of Investment Risks</h3>
+                            <p>Risk is the possibility of losing money on your investments. Key risks include:</p>
+                            <ul>
+                                <li><strong>Market Risk:</strong> Overall market decline affecting all stocks</li>
+                                <li><strong>Company Risk:</strong> Specific company problems</li>
+                                <li><strong>Liquidity Risk:</strong> Difficulty selling when needed</li>
+                                <li><strong>Inflation Risk:</strong> Purchasing power erosion</li>
+                            </ul>
+                            <h4>Risk-Return Relationship</h4>
+                            <p>Higher potential returns usually come with higher risk. Government bonds are low-risk, low-return; small-cap stocks are high-risk, high-potential return.</p>
+                        `,
+                        quiz: [
+                            {
+                                question: 'Which investment typically has the highest risk?',
+                                options: ['Government bonds', 'Large-cap stocks', 'Small-cap stocks', 'Fixed deposits'],
+                                correct: 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            sebilaw: {
+                title: 'SEBI Law and Regulations',
+                lessons: [
+                    {
+                        title: 'Introduction to SEBI',
+                        content: `
+                            <h3>What is SEBI?</h3>
+                            <p>The Securities and Exchange Board of India (SEBI) is the regulatory body for the securities market in India. It was established in 1988 and given statutory powers in 1992 through the SEBI Act.</p>
+                            <h4>SEBI's Main Functions:</h4>
+                            <ul>
+                                <li>Protecting the interests of investors in securities</li>
+                                <li>Promoting the development of the securities market</li>
+                                <li>Regulating the securities market</li>
+                                <li>Registering and regulating intermediaries</li>
+                                <li>Prohibiting fraudulent and unfair trade practices</li>
+                            </ul>
+                        `,
+                        quiz: [
+                            {
+                                question: 'When was SEBI given statutory powers?',
+                                options: ['1988', '1992', '1995', '2000'],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            algo: {
+                title: 'Algorithmic Trading',
+                lessons: [
+                    {
+                        title: 'Introduction to Algorithmic Trading',
+                        content: `
+                            <h3>What is Algorithmic Trading?</h3>
+                            <p>Algorithmic trading uses computer programs to execute trades based on predefined rules and conditions. These algorithms can analyze market data, identify trading opportunities, and execute orders at speeds impossible for humans.</p>
+                            <h4>Key Benefits:</h4>
+                            <ul>
+                                <li><strong>Speed:</strong> Execute trades in milliseconds</li>
+                                <li><strong>Accuracy:</strong> Eliminate human error</li>
+                                <li><strong>Emotion-free:</strong> Remove psychological biases</li>
+                                <li><strong>Backtesting:</strong> Test strategies on historical data</li>
+                                <li><strong>Diversification:</strong> Trade multiple strategies simultaneously</li>
+                            </ul>
+                            <h4>Common Algorithmic Strategies:</h4>
+                            <ul>
+                                <li><strong>Trend Following:</strong> Identify and follow market trends</li>
+                                <li><strong>Arbitrage:</strong> Exploit price differences across markets</li>
+                                <li><strong>Mean Reversion:</strong> Bet that prices will return to average</li>
+                                <li><strong>Market Making:</strong> Provide liquidity by quoting bid and ask prices</li>
+                                <li><strong>Statistical Arbitrage:</strong> Use statistical models to identify opportunities</li>
+                            </ul>
+                        `,
+                        quiz: [
+                            {
+                                question: 'What is the primary advantage of algorithmic trading?',
+                                options: ['Guaranteed profits', 'Emotion-free execution', 'No need for market knowledge', '100% success rate'],
+                                correct: 1
+                            },
+                            {
+                                question: 'Which regulatory body oversees algorithmic trading in India?',
+                                options: ['RBI', 'SEBI', 'IRDAI', 'PFRDA'],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupNavigation();
+            updateUI();
+        });
+
+        function initializeApp() {
+            // Load saved state from localStorage
+            const savedState = localStorage.getItem('sebiEducationState');
+            if (savedState) {
+                Object.assign(state, JSON.parse(savedState));
+            }
+            
+            // Initialize virtual trading
+            initializeVirtualTrading();
+            
+            // Set up modal closing
+            document.querySelector('.close').addEventListener('click', closeModal);
+            window.addEventListener('click', function(event) {
+                if (event.target == document.getElementById('learningModal')) {
+                    closeModal();
+                }
+            });
+        }
+
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetSection = link.getAttribute('href').substring(1);
+                    switchSection(targetSection);
+                    
+                    // Update active nav link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+        }
+
+        function switchSection(sectionName) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName).classList.add('active');
+            state.currentSection = sectionName;
+            
+            // Load section-specific data
+            if (sectionName === 'practice') {
+                loadVirtualTrading();
+            }
+        }
+
+        function updateUI() {
+            // Update stats
+            document.getElementById('lessonsCompleted').textContent = state.user.lessonsCompleted;
+            document.getElementById('quizScore').textContent = state.user.quizScore + '%';
+            document.getElementById('portfolioValue').textContent = '₹' + state.user.portfolioValue.toLocaleString();
+            document.getElementById('learningStreak').textContent = state.user.learningStreak + ' days';
+            
+            // Update module progress
+            for (const module in state.modules) {
+                const progressElement = document.querySelector(`[data-module="${module}"] .progress`);
+                if (progressElement) {
+                    progressElement.style.width = state.modules[module].progress + '%';
+                }
+            }
+            
+            saveState();
+        }
+
+        function saveState() {
+            localStorage.setItem('sebiEducationState', JSON.stringify(state));
+        }
+
+        // Learning modules
+        function openModule(moduleName) {
+            const modal = document.getElementById('learningModal');
+            const content = document.getElementById('lessonContent');
+            
+            const module = learningContent[moduleName];
+            if (!module) return;
+            
+            let html = `<h2>${module.title}</h2>`;
+            
+            // Display first lesson
+            const firstLesson = module.lessons[0];
+            html += `
+                <div class="lesson">
+                    <h3>${firstLesson.title}</h3>
+                    ${firstLesson.content}
+                    <div class="quiz-section">
+                        <h4>Quick Quiz</h4>
+                        <div id="quizContainer"></div>
+                    </div>
+                    <button class="btn-primary" onclick="completeLesson('${moduleName}')">Mark as Complete</button>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            modal.style.display = 'block';
+            
+            // Load quiz
+            loadQuiz(moduleName, 0);
+        }
+
+        function completeLesson(moduleName) {
+            state.modules[moduleName].completed = true;
+            state.modules[moduleName].progress = 100;
+            state.user.lessonsCompleted++;
+            updateUI();
+            
+            // Close modal
+            closeModal();
+            
+            // Show completion message
+            alert(`Congratulations! You've completed the ${learningContent[moduleName].title} module.`);
+        }
+
+        function loadQuiz(moduleName, lessonIndex) {
+            const lesson = learningContent[moduleName].lessons[lessonIndex];
+            const container = document.getElementById('quizContainer');
+            
+            if (!lesson.quiz || lesson.quiz.length === 0) return;
+            
+            let html = '';
+            lesson.quiz.forEach((q, index) => {
+                html += `
+                    <div class="quiz-question">
+                        <p><strong>${index + 1}. ${q.question}</strong></p>
+                        <div class="quiz-options">
+                            ${q.options.map((option, optIndex) => `
+                                <label>
+                                    <input type="radio" name="q${index}" value="${optIndex}">
+                                    ${option}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `<button onclick="submitQuiz('${moduleName}', ${lessonIndex})" class="btn-primary">Submit Quiz</button>`;
+            container.innerHTML = html;
+        }
+
+        function submitQuiz(moduleName, lessonIndex) {
+            const lesson = learningContent[moduleName].lessons[lessonIndex];
+            const questions = lesson.quiz;
+            let correct = 0;
+            
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && parseInt(selected.value) === q.correct) {
+                    correct++;
+                }
+            });
+            
+            const score = Math.round((correct / questions.length) * 100);
+            state.user.quizScore = Math.round((state.user.quizScore + score) / 2);
+            
+            alert(`Quiz completed! Your score: ${score}%`);
+            updateUI();
+        }
+
+        function closeModal() {
+            document.getElementById('learningModal').style.display = 'none';
+        }
+
+        function startLesson(moduleName) {
+            switchSection('learn');
+            setTimeout(() => openModule(moduleName), 100);
+        }
+
+        function startVirtualTrading() {
+            switchSection('practice');
+        }
+
+        // Virtual trading functions
+        function initializeVirtualTrading() {
+            if (!state.user.holdings) {
+                state.user.holdings = {};
+            }
+        }
+
+        function loadVirtualTrading() {
+            updatePortfolioDisplay();
+            loadHoldings();
+        }
+
+        function updatePortfolioDisplay() {
+            let totalValue = state.user.cashAvailable;
+            
+            Object.keys(state.user.holdings).forEach(symbol => {
+                const holding = state.user.holdings[symbol];
+                totalValue += holding.quantity * stockData[symbol].price;
+            });
+            
+            state.user.portfolioValue = totalValue;
+            
+            document.getElementById('totalValue').textContent = '₹' + totalValue.toLocaleString();
+            document.getElementById('cashAvailable').textContent = '₹' + state.user.cashAvailable.toLocaleString();
+        }
+
+        function loadHoldings() {
+            const tbody = document.getElementById('holdingsBody');
+            tbody.innerHTML = '';
+            
+            Object.keys(state.user.holdings).forEach(symbol => {
+                const holding = state.user.holdings[symbol];
+                const currentPrice = stockData[symbol].price;
+                const totalValue = holding.quantity * currentPrice;
+                const totalCost = holding.quantity * holding.avgPrice;
+                const pnl = totalValue - totalCost;
+                
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${symbol}</td>
+                    <td>${holding.quantity}</td>
+                    <td>₹${holding.avgPrice.toFixed(2)}</td>
+                    <td>₹${currentPrice.toFixed(2)}</td>
+                    <td>₹${totalValue.toFixed(2)}</td>
+                    <td class="${pnl >= 0 ? 'positive' : 'negative'}">₹${pnl.toFixed(2)}</td>
+                `;
+            });
+        }
+
+        function searchStocks() {
+            const searchTerm = document.getElementById('stockSearch').value.toUpperCase();
+            const results = document.getElementById('searchResults');
+            
+            if (searchTerm.length < 2) {
+                results.style.display = 'none';
+                return;
+            }
+            
+            const filteredStocks = Object.keys(stockData).filter(symbol => 
+                symbol.includes(searchTerm) || 
+                stockData[symbol].name.toUpperCase().includes(searchTerm)
+            );
+            
+            if (filteredStocks.length > 0) {
+                let html = '';
+                filteredStocks.forEach(symbol => {
+                    const stock = stockData[symbol];
+                    html += `
+                        <div class="search-result" onclick="selectStock('${symbol}')">
+                            <strong>${symbol}</strong> - ${stock.name}
+                            <br>
+                            <span>₹${stock.price}</span>
+                            <span style="color: ${stock.change >= 0 ? 'green' : 'red'}">
+                                ${stock.change >= 0 ? '+' : ''}${stock.change}%
+                            </span>
+                        </div>
+                    `;
+                });
+                results.innerHTML = html;
+                results.style.display = 'block';
+            } else {
+                results.style.display = 'none';
+            }
+        }
+
+        function selectStock(symbol) {
+            document.getElementById('stockSearch').value = symbol;
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('symbol').value = symbol;
+            document.getElementById('orderForm').style.display = 'block';
+        }
+
+        // Form handling
+        document.addEventListener('submit', function(e) {
+            if (e.target.id === 'tradeForm') {
+                e.preventDefault();
+                executeTrade();
+            }
+        });
+
+        function executeTrade() {
+            const symbol = document.getElementById('symbol').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const orderType = document.getElementById('orderType').value;
+            
+            if (!symbol || !quantity || quantity <= 0) {
+                alert('Please enter valid quantity');
+                return;
+            }
+            
+            const price = stockData[symbol].price;
+            const totalCost = price * quantity;
+            
+            if (orderType === 'BUY') {
+                if (totalCost > state.user.cashAvailable) {
+                    alert('Insufficient funds');
+                    return;
+                }
+                
+                if (!state.user.holdings[symbol]) {
+                    state.user.holdings[symbol] = { quantity: 0, avgPrice: 0 };
+                }
+                
+                const holding = state.user.holdings[symbol];
+                const newTotalQuantity = holding.quantity + quantity;
+                const newAvgPrice = ((holding.quantity * holding.avgPrice) + totalCost) / newTotalQuantity;
+                
+                holding.quantity = newTotalQuantity;
+                holding.avgPrice = newAvgPrice;
+                state.user.cashAvailable -= totalCost;
+                
+            } else if (orderType === 'SELL') {
+                if (!state.user.holdings[symbol] || state.user.holdings[symbol].quantity < quantity) {
+                    alert('Insufficient holdings');
+                    return;
+                }
+                
+                state.user.holdings[symbol].quantity -= quantity;
+                state.user.cashAvailable += totalCost;
+                
+                if (state.user.holdings[symbol].quantity === 0) {
+                    delete state.user.holdings[symbol];
+                }
+            }
+            
+            updateUI();
+            loadVirtualTrading();
+            document.getElementById('orderForm').style.display = 'none';
+            document.getElementById('tradeForm').reset();
+            
+            alert(`Trade executed successfully! ${orderType} ${quantity} shares of ${symbol}`);
+        }
+
+        function changeLanguage() {
+            const lang = document.getElementById('language').value;
+            alert(`Language changed to ${lang}. This feature would translate content in a full implementation.`);
+        }
+
+        // Function to toggle quiz answers
+        function toggleAnswer(questionNumber) {
+            const answer = document.getElementById('answer' + questionNumber);
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+            } else {
+                answer.style.display = 'block';
+            }
+        }
+
+        // Risk Assessment Tool Calculation
+        function calculateRisk() {
+            const timeHorizon = document.getElementById('timeHorizon').value;
+            const reaction = document.getElementById('reaction').value;
+            const goal = document.getElementById('goal').value;
+            const incomePercent = document.getElementById('incomePercent').value;
+            const experience = document.getElementById('experience').value;
+            if (!timeHorizon || !reaction || !goal || !incomePercent || !experience) {
+                alert('Please answer all questions before calculating your risk profile.');
+                return;
+            }
+            const totalScore = parseInt(timeHorizon) + parseInt(reaction) + parseInt(goal) + parseInt(incomePercent) + parseInt(experience);
+            const resultElement = document.getElementById('riskResult');
+            const profileTypeElement = document.getElementById('profileType');
+            const profileDescriptionElement = document.getElementById('profileDescription');
+            const investmentRecommendationElement = document.getElementById('investmentRecommendation');
+            resultElement.style.display = 'block';
+            if (totalScore <= 8) {
+                resultElement.className = 'risk-result result-low';
+                profileTypeElement.textContent = 'Conservative Investor';
+                profileDescriptionElement.textContent = 'You have a low tolerance for risk and prefer capital preservation over high returns. You are uncomfortable with market volatility and potential losses.';
+                investmentRecommendationElement.innerHTML = `
+                    <h4>Recommended Asset Allocation:</h4>
+                    <ul>
+                        <li>Stocks: 20-40%</li>
+                        <li>Bonds: 40-60%</li>
+                        <li>Cash: 10-20%</li>
+                        <li>Alternative Assets: 0-10%</li>
+                    </ul>
+                    <p><strong>Suggested Investments:</strong> Blue-chip stocks, government bonds, high-quality corporate bonds, money market funds, CDs</p>
+                `;
+            } else if (totalScore <= 13) {
+                resultElement.className = 'risk-result result-medium';
+                profileTypeElement.textContent = 'Moderate Investor';
+                profileDescriptionElement.textContent = 'You have a balanced approach to investing, seeking moderate growth while managing risk. You can tolerate some market fluctuations in pursuit of reasonable returns.';
+                investmentRecommendationElement.innerHTML = `
+                    <h4>Recommended Asset Allocation:</h4>
+                    <ul>
+                        <li>Stocks: 50-70%</li>
+                        <li>Bonds: 20-40%</li>
+                        <li>Cash: 5-10%</li>
+                        <li>Alternative Assets: 5-15%</li>
+                    </ul>
+                    <p><strong>Suggested Investments:</strong> Diversified stock portfolio, balanced mutual funds, investment-grade bonds, real estate investment trusts (REITs)</p>
+                `;
+            } else {
+                resultElement.className = 'risk-result result-high';
+                profileTypeElement.textContent = 'Aggressive Investor';
+                profileDescriptionElement.textContent = 'You have a high tolerance for risk and are primarily focused on capital growth. You are comfortable with significant market volatility and potential short-term losses in pursuit of higher long-term returns.';
+                investmentRecommendationElement.innerHTML = `
+                    <h4>Recommended Asset Allocation:</h4>
+                    <ul>
+                        <li>Stocks: 70-90%</li>
+                        <li>Bonds: 5-20%</li>
+                        <li>Cash: 0-5%</li>
+                        <li>Alternative Assets: 5-20%</li>
+                    </ul>
+                    <p><strong>Suggested Investments:</strong> Growth stocks, sector-specific funds, international equities, small-cap stocks, emerging markets, cryptocurrency (small allocation)</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
