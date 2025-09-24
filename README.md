@@ -7,7 +7,8 @@ The SEBI Investor Education Hub is a comprehensive web-based educational platfor
 ✨ Features
 🎯 Interactive Dashboard
 
-<img width="1919" height="890" alt="image" src="https://github.com/user-attachments/assets/53bfc2ac-acee-4bc1-95db-1dfcd862efcb" />
+<img width="1919" height="1078" alt="image" src="https://github.com/user-attachments/assets/112af823-a645-4a0f-88bd-0a5e8786b09e" />
+
 
 Personal progress tracking with completion statistics
 Quick access to key learning modules
