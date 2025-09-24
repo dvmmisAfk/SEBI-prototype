@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEBI Investor Education Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
@@ -18,6 +21,30 @@
             --danger: #ef4444;
             --gray: #64748b;
             --light-gray: #e2e8f0;
+            --bg-color: #f1f5f9;
+            --text-color: #1e293b;
+            --card-bg: white;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #6366f1;
+            --accent: #06b6d4;
+            --light: #0f172a;
+            --dark: #f1f5f9;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray: #94a3b8;
+            --light-gray: #334155;
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.2);
         }
         
         * {
@@ -27,10 +54,74 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            }
+            50% {
+                box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
+            }
+            100% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 1s ease-in-out;
+        }
+        
+        .section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .stat-card, .action-card, .module-card, .pattern-card, .knowledge-block {
+            animation: fadeInUp 0.6s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        .progress {
+            animation: fadeIn 1s ease-out;
+        }
+        
         body {
-            background-color: #f1f5f9;
-            color: var(--dark);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Noto Sans Devanagari', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .container {
@@ -43,11 +134,12 @@
         .navbar {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 1rem 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 100;
+            animation: fadeIn 0.5s ease-out;
         }
         
         .nav-container {
@@ -57,52 +149,427 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            gap: 20px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .nav-logo {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
+            text-decoration: none;
+            color: white;
         }
         
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 20px;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
         }
         
         .nav-link {
             color: white;
             text-decoration: none;
-            font-weight: 500;
-            padding: 8px 16px;
+            font-weight: 600;
+            padding: 6px 12px;
             border-radius: 4px;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid transparent;
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
         }
-        
+
         .nav-link:hover, .nav-link.active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+
+        /* Sliding Profile Panel */
+        .profile-panel {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--card-bg), var(--light));
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1100;
+            transition: left 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .profile-panel.open {
+            left: 0;
+        }
+
+        .profile-panel .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+        }
+
+        .profile-info h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .profile-info p {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .progress-section {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            transition: width 0.3s ease;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .badge.gold {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #8b4513;
+        }
+
+        .badge.silver {
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+            color: #333;
+        }
+
+        .badge.bronze {
+            background: linear-gradient(135deg, #cd7f32, #d2b48c);
+            color: #fff;
+        }
+
+        .hamburger-btn {
+            display: block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 10px;
+            margin-left: -10px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        
-        .lang-select {
+
+        @media (max-width: 900px) {
+            .hamburger-btn {
+                display: block;
+            }
+        }
+
+        /* Login/Signup Modal */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1200;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .auth-modal-content {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            margin: auto;
+        }
+
+        .auth-modal .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .auth-toggle a {
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .login-btn {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-menu {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-left: auto;
+        }
+
+        .user-name {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        [data-theme="dark"] .nav-link:hover, [data-theme="dark"] .nav-link.active {
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+        }
+        
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        .theme-toggle {
+            background: white;
+            border: 1px solid #ccc;
+            color: black;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-select {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
         }
         
         select {
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 4px;
             border: none;
             background: white;
             color: var(--dark);
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+
+        [data-theme="dark"] select {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] option {
+            background: var(--card-bg);
+            color: var(--text-color);
         }
         
         /* Main Content */
         .main-content {
             padding: 20px 0;
+            animation: fadeInUp 0.8s ease-out;
         }
         
         .section {
@@ -123,17 +590,35 @@
         }
         
         .stat-card {
-            background: white;
+            background: linear-gradient(135deg, var(--card-bg), var(--light));
             border-radius: 10px;
             padding: 25px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px var(--shadow-color);
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+            background: linear-gradient(135deg, #f0f9ff, white);
+        }
+
+        [data-theme="dark"] .stat-card:hover {
+            background: linear-gradient(135deg, var(--card-bg), var(--light-gray));
         }
         
         .stat-card i {
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover i {
+            color: var(--accent);
+            transform: scale(1.1);
         }
         
         .stat-number {
@@ -141,6 +626,11 @@
             font-weight: 700;
             color: var(--primary);
             margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+        
+        .stat-card:hover .stat-number {
+            color: var(--secondary);
         }
         
         .quick-actions {
@@ -155,23 +645,36 @@
         }
         
         .action-card {
-            background: white;
+            background: linear-gradient(135deg, var(--card-bg), var(--light));
             border-radius: 10px;
             padding: 25px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px var(--shadow-color);
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
         }
         
         .action-card:hover {
-            transform: translateY(-5px);
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+            background: linear-gradient(135deg, #f0f9ff, white);
+        }
+
+        [data-theme="dark"] .action-card:hover {
+            background: linear-gradient(135deg, var(--card-bg), var(--light-gray));
         }
         
         .action-card i {
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-card:hover i {
+            color: var(--accent);
+            transform: scale(1.1);
         }
         
         /* Learning Modules */
@@ -183,16 +686,35 @@
         }
         
         .module-card {
-            background: white;
+            background: linear-gradient(135deg, var(--card-bg), var(--light));
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px var(--shadow-color);
             position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        
+        .module-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+            background: linear-gradient(135deg, #f0f9ff, white);
+        }
+
+        [data-theme="dark"] .module-card:hover {
+            background: linear-gradient(135deg, var(--card-bg), var(--light-gray));
         }
         
         .module-icon {
             font-size: 2.5rem;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover .module-icon {
+            transform: scale(1.1);
+            color: var(--accent);
         }
         
         .progress-bar {
@@ -213,27 +735,37 @@
         .btn-primary {
             display: inline-block;
             padding: 10px 20px;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-weight: 500;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
             text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .btn-primary:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
         }
         
         /* Knowledge Sections */
         .knowledge-block {
-            background: white;
+            background: linear-gradient(135deg, var(--card-bg), var(--light));
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px var(--shadow-color);
             margin: 20px 0;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .knowledge-block:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.1);
         }
         
         .knowledge-block h4 {
@@ -252,11 +784,12 @@
         
         /* Practice Section */
         .trading-interface {
-            background: white;
+            background: var(--card-bg);
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px var(--shadow-color);
             margin: 20px 0;
+            border: 1px solid var(--border-color);
         }
         
         .portfolio-stats {
@@ -268,8 +801,9 @@
         
         .portfolio-stats div {
             padding: 15px;
-            background: var(--light);
+            background: var(--card-bg);
             border-radius: 8px;
+            border: 1px solid var(--border-color);
         }
         
         .stock-search {
@@ -280,8 +814,10 @@
         .stock-search input {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--light-gray);
+            border: 1px solid var(--border-color);
             border-radius: 5px;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
         
         .search-results {
@@ -289,30 +825,33 @@
             top: 100%;
             left: 0;
             width: 100%;
-            background: white;
-            border: 1px solid var(--light-gray);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 5px;
             max-height: 200px;
             overflow-y: auto;
             display: none;
             z-index: 10;
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
         
         .search-result {
             padding: 10px 15px;
-            border-bottom: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--border-color);
             cursor: pointer;
         }
-        
+
         .search-result:hover {
             background: var(--light);
         }
         
         .order-form {
-            background: var(--light);
+            background: var(--card-bg);
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
         
         .order-form label {
@@ -325,18 +864,28 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid var(--light-gray);
+            border: 1px solid var(--border-color);
             border-radius: 5px;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
         
         .btn-trade {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-trade:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
         }
         
         .holdings {
@@ -352,9 +901,9 @@
         th, td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--border-color);
         }
-        
+
         th {
             background: var(--light);
             font-weight: 600;
@@ -376,21 +925,28 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        
+
         .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 10px;
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 1100px;
+            border-radius: 15px;
             padding: 30px;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            margin: auto;
         }
         
         .close {
@@ -403,10 +959,11 @@
         
         /* Footer */
         footer {
-            background: var(--dark);
+            background: linear-gradient(135deg, var(--dark), #334155);
             color: white;
             padding: 30px 0;
             margin-top: 40px;
+            animation: fadeInUp 0.6s ease-out;
         }
         
         .footer-content {
@@ -445,10 +1002,22 @@
         }
         
         .pattern-card {
-            background: var(--light);
+            background: linear-gradient(135deg, var(--card-bg), var(--border-color));
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px var(--shadow-color);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .pattern-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.1);
+            background: linear-gradient(135deg, #f0f9ff, var(--light));
+        }
+
+        [data-theme="dark"] .pattern-card:hover {
+            background: linear-gradient(135deg, var(--card-bg), var(--light-gray));
         }
         
         .pattern-name {
@@ -546,10 +1115,12 @@
         
         /* Quiz Styles */
         .quiz-container {
-            background: var(--light);
+            background: var(--card-bg);
             padding: 25px;
             border-radius: 10px;
             margin: 30px 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
         
         .quiz-question {
@@ -580,14 +1151,17 @@
             align-items: center;
             gap: 10px;
             padding: 10px;
-            border: 1px solid var(--light-gray);
+            border: 1px solid var(--border-color);
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--card-bg), var(--light));
         }
         
         .quiz-option:hover {
-            background: rgba(37, 99, 235, 0.1);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(34, 211, 238, 0.1));
+            transform: translateX(5px);
+            border-color: var(--primary);
         }
         
         .quiz-option input {
@@ -596,10 +1170,12 @@
 
         /* Risk Assessment Module Styles */
         .risk-tool {
-            background: var(--light);
+            background: var(--card-bg);
             padding: 25px;
             border-radius: 10px;
             margin: 30px 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
         .tool-question {
             margin-bottom: 20px;
@@ -616,7 +1192,7 @@
             border-radius: 5px;
         }
         .calculate-btn {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
             padding: 12px 20px;
@@ -625,9 +1201,14 @@
             font-weight: 500;
             display: block;
             margin: 20px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        
         .calculate-btn:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
         }
         .risk-result {
             padding: 20px;
@@ -656,9 +1237,62 @@
             margin-top: 10px;
             display: none;
         }
+
+        .video-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .video-container {
+            margin: 15px 0;
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        .quiz-buttons-spacing {
+            margin-bottom: 25px;
+        }
+
+        /* Modal specific responsive styles */
+        @media (max-width: 600px) {
+            .modal-content {
+                padding: 15px;
+            }
+
+            .quiz-option {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .video-container {
+                padding-bottom: 60%; /* More compact for very small screens */
+            }
+
+            .lesson h3 {
+                font-size: 1.2rem;
+            }
+
+            .quiz-question .question-text {
+                font-size: 1rem;
+            }
+        }
         
         .show-answer {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
             padding: 8px 15px;
@@ -666,10 +1300,14 @@
             cursor: pointer;
             font-size: 0.9rem;
             margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .show-answer:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
         }
         
         /* Responsive */
@@ -678,41 +1316,147 @@
                 flex-direction: column;
                 gap: 15px;
             }
-            
+
             .nav-menu {
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            
+
             .stats-grid, .action-cards, .modules-grid, .pattern-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                width: 100%;
+                padding: 20px;
+                max-height: 95vh;
+                max-width: none;
+            }
+
+            .video-container {
+                padding-bottom: 75%; /* Adjust for mobile */
             }
         }
     </style>
 </head>
 <body>
+    <!-- Sliding Profile Panel -->
+    <div id="profilePanel" class="profile-panel">
+        <button class="close-btn" onclick="toggleProfilePanel()">&times;</button>
+        <button id="profileThemeToggle" class="theme-toggle" onclick="toggleTheme()" style="position: absolute; top: 10px; right: 40px;">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="profile-avatar">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="profile-info">
+            <h3 id="profileName">Demo User</h3>
+            <p><strong>Email:</strong> <span id="profileEmail">demo@sebihub.com</span></p>
+            <p><strong>Joined:</strong> January 2024</p>
+            <p><strong>Account Type:</strong> Student</p>
+        </div>
+        <div class="progress-section">
+            <h4>Learning Progress</h4>
+            <div class="progress-bar">
+                <div class="progress-fill" id="profileProgressFill" style="width: 0%"></div>
+            </div>
+            <p>Overall Progress: <span id="profileProgressPercent">0%</span></p>
+            <div class="badge" id="progressBadge">Beginner</div>
+        </div>
+        <div class="progress-section">
+            <h4>Statistics</h4>
+            <p>Lessons Completed: <span id="profileLessons">0</span></p>
+            <p>Quiz Average: <span id="profileQuizScore">0%</span></p>
+            <p>Portfolio Value: <span id="profilePortfolio">₹1,00,000</span></p>
+            <p>Learning Streak: <span id="profileStreak">0 days</span></p>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="auth-modal">
+        <div class="auth-modal-content">
+            <span class="close" onclick="closeAuthModal()">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
+                <div class="auth-toggle">
+                    Don't have an account? <a onclick="switchAuthTab('signup')">Sign up</a>
+                </div>
+            </form>
+
+            <form id="signupForm" class="auth-form">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required minlength="6">
+                </div>
+                <button type="submit" class="auth-btn">Sign Up</button>
+                <div class="auth-toggle">
+                    Already have an account? <a onclick="switchAuthTab('login')">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <h1 class="nav-logo"><i class="fas fa-chart-line"></i> SEBI Education Hub</h1>
+            <div class="nav-left">
+                <button class="hamburger-btn" onclick="toggleProfilePanel()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="#dashboard" class="nav-logo" onclick="animateLogo(); switchSection('dashboard'); window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-chart-line"></i> SEBI Education Hub</a>
+            </div>
             <ul class="nav-menu">
                 <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
                 <li><a href="#learn" class="nav-link">Learning</a></li>
                 <li><a href="#sebi-knowledge" class="nav-link">SEBI Law</a></li>
                 <li><a href="#algorithmic" class="nav-link">Algo Trading</a></li>
                 <li><a href="#practice" class="nav-link">Practice</a></li>
+                <li><a href="#risk-assessment" class="nav-link">Risk Assessment</a></li>
             </ul>
-            <li><a href="#risk-assessment" class="nav-link">Risk Assessment</a></li>
-            <div class="lang-select">
-                <label for="language">Language:</label>
-                <select id="language" onchange="changeLanguage()">
-                    <option value="en">English</option>
-                    <option value="hi">हिन्दी</option>
-                    <option value="bn">বাংলা</option>
-                    <option value="te">తెలుగు</option>
-                    <option value="mr">मराठी</option>
-                    <option value="ta">தமிழ்</option>
-                </select>
+            <div class="nav-controls">
+                <div id="authButton">
+                    <button class="login-btn" onclick="showAuthModal()">Login</button>
+                </div>
+                <div class="lang-select">
+                    <label for="language">Language:</label>
+                    <select id="language" onchange="changeLanguage()">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="mr">मराठी</option>
+                        <option value="ta">தமிழ்</option>
+                    </select>
+                </div>
             </div>
         </div>
     </nav>
@@ -767,6 +1511,11 @@
                             <i class="fas fa-robot"></i>
                             <h4>Algorithmic Trading</h4>
                             <p>Learn automated trading strategies</p>
+                        </div>
+                        <div class="action-card" onclick="showSupport()">
+                            <i class="fas fa-headset"></i>
+                            <h4>Support</h4>
+                            <p>Get help: support@sebihub.com | +91 9876543210</p>
                         </div>
                     </div>
                 </div>
@@ -1360,6 +2109,64 @@
     </footer>
 
     <script>
+        // Translations
+        const translations = {
+            en: {
+                title: "SEBI Investor Education Hub",
+                dashboard: "Dashboard",
+                learn: "Learning",
+                sebiLaw: "SEBI Law",
+                algo: "Algo Trading",
+                practice: "Practice",
+                riskAssessment: "Risk Assessment",
+                welcome: "Welcome to Your Learning Journey",
+                quickStart: "Quick Start",
+                lessonsCompleted: "Lessons Completed",
+                quizScore: "Quiz Score",
+                virtualPortfolio: "Virtual Portfolio",
+                learningStreak: "Learning Streak",
+                stockMarketBasics: "Stock Market Basics",
+                riskManagement: "Risk Management",
+                virtualTrading: "Virtual Trading",
+                algorithmicTrading: "Algorithmic Trading",
+                support: "Support",
+                interactiveLearning: "Interactive Learning Modules",
+                sebiLawTitle: "SEBI Law: Basics to Advanced Knowledge 🏛️🔒📖",
+                algorithmicTitle: "Algorithmic Trading with Candlestick Patterns",
+                candlestickTitle: "Candlestick Patterns: Basics to Advanced Knowledge 🕯️📈📖",
+                riskToolTitle: "Risk Assessment Tool",
+                virtualTradingTitle: "Virtual Trading Platform",
+                // Add more as needed
+            },
+            hi: {
+                title: "SEBI निवेशक शिक्षा हब",
+                dashboard: "डैशबोर्ड",
+                learn: "सीखना",
+                sebiLaw: "SEBI कानून",
+                algo: "एल्गो ट्रेडिंग",
+                practice: "अभ्यास",
+                riskAssessment: "जोखिम मूल्यांकन",
+                welcome: "आपकी सीखने की यात्रा में स्वागत",
+                quickStart: "त्वरित प्रारंभ",
+                lessonsCompleted: "पूरा किए गए पाठ",
+                quizScore: "क्विज स्कोर",
+                virtualPortfolio: "आभासी पोर्टफोलियो",
+                learningStreak: "सीखने की लकीर",
+                stockMarketBasics: "शेयर बाजार मूल बातें",
+                riskManagement: "जोखिम प्रबंधन",
+                virtualTrading: "आभासी व्यापार",
+                algorithmicTrading: "एल्गोरिदमिक ट्रेडिंग",
+                support: "सहायता",
+                interactiveLearning: "इंटरैक्टिव लर्निंग मॉड्यूल",
+                sebiLawTitle: "SEBI कानून: मूल बातें से उन्नत ज्ञान 🏛️🔒📖",
+                algorithmicTitle: "कैंडलस्टिक पैटर्न के साथ एल्गोरिदमिक ट्रेडिंग",
+                candlestickTitle: "कैंडलस्टिक पैटर्न: मूल बातें से उन्नत ज्ञान 🕯️📈📖",
+                riskToolTitle: "जोखिम मूल्यांकन उपकरण",
+                virtualTradingTitle: "आभासी व्यापार प्लेटफॉर्म",
+                // Add more as needed
+            }
+        };
+
         // Global state management
         const state = {
             user: {
@@ -1368,7 +2175,10 @@
                 portfolioValue: 100000,
                 cashAvailable: 100000,
                 holdings: {},
-                learningStreak: 0
+                learningStreak: 0,
+                isLoggedIn: false,
+                name: 'Demo User',
+                email: 'demo@sebihub.com'
             },
             currentSection: 'dashboard',
             modules: {
@@ -1416,6 +2226,13 @@
                                 <h4>Example:</h4>
                                 <p>If you own 100 shares of Reliance Industries, and Reliance has 1,000,000 total shares, you own 0.01% of the company.</p>
                             </div>
+                            <div class="video-section">
+                                <h4>Educational Video:</h4>
+                                <div class="video-container">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/p7HKvqRI_Bo" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><em>Learn the fundamentals of stocks and investing from Investopedia</em></p>
+                            </div>
                         `,
                         quiz: [
                             {
@@ -1427,6 +2244,31 @@
                                 question: 'What are stocks also called?',
                                 options: ['Bonds', 'Shares or Equities', 'Mutual Funds', 'Derivatives'],
                                 correct: 1
+                            },
+                            {
+                                question: 'What is the primary purpose of a stock exchange?',
+                                options: ['To store physical stock certificates', 'To provide a marketplace for buying and selling securities', 'To manage company finances', 'To regulate government bonds'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What does IPO stand for?',
+                                options: ['Initial Public Offering', 'International Portfolio Option', 'Investment Protection Order', 'Indian Public Organization'],
+                                correct: 0
+                            },
+                            {
+                                question: 'Which of the following is NOT a factor that affects stock prices?',
+                                options: ['Company performance', 'Economic conditions', 'Weather patterns', 'Market sentiment'],
+                                correct: 2
+                            },
+                            {
+                                question: 'What is the minimum lot size for trading in most stocks?',
+                                options: ['1 share', '10 shares', '100 shares', '1000 shares'],
+                                correct: 0
+                            },
+                            {
+                                question: 'What does "dividend" mean in stock market terms?',
+                                options: ['A portion of company profits distributed to shareholders', 'The initial price of a stock', 'A type of stock certificate', 'A trading fee'],
+                                correct: 0
                             }
                         ]
                     },
@@ -1445,6 +2287,13 @@
                                 <li>Institutional investors (mutual funds, pension funds)</li>
                                 <li>Foreign institutional investors (FIIs)</li>
                             </ul>
+                            <div class="video-section">
+                                <h4>Educational Video:</h4>
+                                <div class="video-container">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/ZCFkWDdmXG8" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><em>Understanding how stock markets work - NSE India</em></p>
+                            </div>
                         `,
                         quiz: [
                             {
@@ -1470,13 +2319,50 @@
                                 <li><strong>Liquidity Risk:</strong> Difficulty selling when needed</li>
                                 <li><strong>Inflation Risk:</strong> Purchasing power erosion</li>
                             </ul>
-                            <h4>Risk-Return Relationship</h4>
-                            <p>Higher potential returns usually come with higher risk. Government bonds are low-risk, low-return; small-cap stocks are high-risk, high-potential return.</p>
+                <h4>Risk-Return Relationship</h4>
+                <p>Higher potential returns usually come with higher risk. Government bonds are low-risk, low-return; small-cap stocks are high-risk, high-potential return.</p>
+                <div class="video-section">
+                    <h4>Risk Assessment & Portfolio Management:</h4>
+                    <div class="video-container">
+                        <iframe width="100%" height="315" src="https://www.youtube.com/embed/z6BQzqe_BRg" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <p><em>Comprehensive guide to investment risk assessment and portfolio management strategies</em></p>
+                </div>
                         `,
                         quiz: [
                             {
                                 question: 'Which investment typically has the highest risk?',
                                 options: ['Government bonds', 'Large-cap stocks', 'Small-cap stocks', 'Fixed deposits'],
+                                correct: 2
+                            },
+                            {
+                                question: 'What is diversification in investment terms?',
+                                options: ['Putting all money in one stock', 'Spreading investments across different assets', 'Only investing in government bonds', 'Trading frequently'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What does "volatility" measure in investments?',
+                                options: ['The average return of an investment', 'The degree of variation in investment returns', 'The total amount invested', 'The time horizon of investment'],
+                                correct: 1
+                            },
+                            {
+                                question: 'Which risk cannot be diversified away?',
+                                options: ['Company-specific risk', 'Market risk', 'Liquidity risk', 'Credit risk'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is the Sharpe ratio used to measure?',
+                                options: ['Risk-free rate of return', 'Risk-adjusted performance', 'Portfolio diversification', 'Market volatility'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is a stop-loss order?',
+                                options: ['An order to buy more shares', 'An order to sell shares at a predetermined price', 'An order to hold shares indefinitely', 'An order to transfer shares'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is the primary goal of risk management?',
+                                options: ['To maximize returns at any cost', 'To eliminate all investment risk', 'To balance risk and return appropriately', 'To invest only in high-risk assets'],
                                 correct: 2
                             }
                         ]
@@ -1499,11 +2385,48 @@
                                 <li>Registering and regulating intermediaries</li>
                                 <li>Prohibiting fraudulent and unfair trade practices</li>
                             </ul>
+                            <div class="video-section">
+                                <h4>Educational Video:</h4>
+                                <div class="video-container">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/lT4Cez-zrE8" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><em>SEBI Rules and Regulations Overview</em></p>
+                            </div>
                         `,
                         quiz: [
                             {
                                 question: 'When was SEBI given statutory powers?',
                                 options: ['1988', '1992', '1995', '2000'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is the primary objective of SEBI?',
+                                options: ['To regulate commodity markets', 'To protect investor interests and regulate securities market', 'To manage government bonds', 'To control foreign exchange rates'],
+                                correct: 1
+                            },
+                            {
+                                question: 'Which act governs SEBI\'s functioning?',
+                                options: ['Companies Act 1956', 'SEBI Act 1992', 'Banking Regulation Act', 'Foreign Exchange Management Act'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What does SEBI regulate?',
+                                options: ['Only stock exchanges', 'Securities market including intermediaries', 'Only mutual funds', 'Only government securities'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is insider trading?',
+                                options: ['Trading by company insiders with public information', 'Trading based on material non-public information', 'Trading during market hours only', 'Trading through registered brokers only'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is the purpose of SEBI\'s SCORES system?',
+                                options: ['To score company performance', 'To handle investor complaints', 'To rate mutual funds', 'To track stock prices'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is the maximum penalty SEBI can impose for violations?',
+                                options: ['₹1 lakh', '₹25 crore or 3 times the profit made', '₹1 crore', '₹10 crore'],
                                 correct: 1
                             }
                         ]
@@ -1534,6 +2457,13 @@
                                 <li><strong>Market Making:</strong> Provide liquidity by quoting bid and ask prices</li>
                                 <li><strong>Statistical Arbitrage:</strong> Use statistical models to identify opportunities</li>
                             </ul>
+                            <div class="video-section">
+                                <h4>Educational Video:</h4>
+                                <div class="video-container">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/EeSrQdab0s0" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><em>Algorithmic Trading Strategies and Implementation</em></p>
+                            </div>
                         `,
                         quiz: [
                             {
@@ -1545,6 +2475,257 @@
                                 question: 'Which regulatory body oversees algorithmic trading in India?',
                                 options: ['RBI', 'SEBI', 'IRDAI', 'PFRDA'],
                                 correct: 1
+                            },
+                            {
+                                question: 'What is backtesting in algorithmic trading?',
+                                options: ['Testing algorithms on historical data', 'Testing trading platforms', 'Testing internet connectivity', 'Testing broker APIs'],
+                                correct: 0
+                            },
+                            {
+                                question: 'What is high-frequency trading (HFT)?',
+                                options: ['Trading once per day', 'Trading multiple times per second', 'Trading once per week', 'Manual trading at high speed'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is the main risk of algorithmic trading?',
+                                options: ['Technology failures', 'Guaranteed losses', 'No market knowledge needed', 'Always profitable'],
+                                correct: 0
+                            },
+                            {
+                                question: 'What is slippage in trading?',
+                                options: ['The difference between expected and actual execution price', 'A type of trading strategy', 'A broker fee', 'A market indicator'],
+                                correct: 0
+                            },
+                            {
+                                question: 'What is the purpose of stop-loss orders in algorithmic trading?',
+                                options: ['To maximize profits', 'To limit losses', 'To increase position size', 'To ignore market conditions'],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            portfolio: {
+                title: 'Portfolio Diversification',
+                lessons: [
+                    {
+                        title: 'Introduction to Portfolio Diversification',
+                        content: `
+                            <h3>What is Portfolio Diversification?</h3>
+                            <p>Portfolio diversification is the process of spreading investments across different asset classes, sectors, and geographical regions to reduce risk and optimize returns.</p>
+                            <h4>Key Benefits:</h4>
+                            <ul>
+                                <li><strong>Risk Reduction:</strong> Don't put all eggs in one basket</li>
+                                <li><strong>Smoother Returns:</strong> Different assets perform differently in various market conditions</li>
+                                <li><strong>Opportunity Capture:</strong> Benefit from growth in different sectors</li>
+                                <li><strong>Stress Reduction:</strong> Less volatility in overall portfolio</li>
+                            </ul>
+                            <h4>Asset Classes for Diversification:</h4>
+                            <ul>
+                                <li><strong>Equities:</strong> Stocks of different companies and sectors</li>
+                                <li><strong>Fixed Income:</strong> Bonds, debentures, government securities</li>
+                                <li><strong>Real Estate:</strong> Property, REITs, real estate funds</li>
+                                <li><strong>Commodities:</strong> Gold, silver, oil, agricultural products</li>
+                                <li><strong>Cash:</strong> Savings accounts, money market funds</li>
+                            </ul>
+                            <div class="video-section">
+                                <h4>Educational Video:</h4>
+                                <div class="video-container">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/iOCbdCHtP4M" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><em>Portfolio Diversification: Risk Management and Asset Allocation</em></p>
+                            </div>
+                        `,
+                        quiz: [
+                            {
+                                question: 'What is the main purpose of portfolio diversification?',
+                                options: ['To maximize returns only', 'To reduce risk through asset allocation', 'To invest only in one sector', 'To eliminate all market risk'],
+                                correct: 1
+                            },
+                            {
+                                question: 'Which asset class is typically considered the most volatile?',
+                                options: ['Government bonds', 'Savings accounts', 'Equities', 'Fixed deposits'],
+                                correct: 2
+                            },
+                            {
+                                question: 'What does "correlation" mean in portfolio management?',
+                                options: ['How assets move in relation to each other', 'The return on investment', 'The risk level of assets', 'The time horizon of investment'],
+                                correct: 0
+                            },
+                            {
+                                question: 'What is the ideal correlation for portfolio diversification?',
+                                options: ['Perfect positive correlation (+1)', 'No correlation (0)', 'Perfect negative correlation (-1)', 'High correlation (+0.8)'],
+                                correct: 2
+                            },
+                            {
+                                question: 'What percentage of portfolio should typically be in equities for a moderate investor?',
+                                options: ['0-20%', '40-60%', '60-80%', '90-100%'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is rebalancing in portfolio management?',
+                                options: ['Selling all investments', 'Adjusting portfolio back to target allocation', 'Only investing in bonds', 'Never changing investments'],
+                                correct: 1
+                            },
+                            {
+                                question: 'Why is geographical diversification important?',
+                                options: ['To avoid all international markets', 'To benefit from global growth opportunities', 'To focus only on domestic markets', 'To eliminate currency risk completely'],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            candlestick: {
+                title: 'Candlestick Patterns',
+                lessons: [
+                    {
+                        title: 'Advanced Candlestick Patterns',
+                        content: `
+                            <h3>Advanced Candlestick Analysis</h3>
+                            <p>Candlestick patterns provide valuable insights into market psychology and potential price movements. Understanding these patterns can help traders make informed decisions.</p>
+                            <h4>Single Candlestick Patterns:</h4>
+                            <ul>
+                                <li><strong>Marubozu:</strong> Strong directional movement with no shadows</li>
+                                <li><strong>Spinning Top:</strong> Indecision with small body and long shadows</li>
+                                <li><strong>Doji:</strong> Open and close at same price - market indecision</li>
+                                <li><strong>Long-legged Doji:</strong> High volatility and indecision</li>
+                            </ul>
+                            <h4>Double Candlestick Patterns:</h4>
+                            <ul>
+                                <li><strong>Bullish/Bearish Engulfing:</strong> One candle completely engulfs the previous</li>
+                                <li><strong>Harami:</strong> Small candle inside previous candle's range</li>
+                                <li><strong>Piercing Pattern:</strong> Bullish reversal after downtrend</li>
+                                <li><strong>Dark Cloud Cover:</strong> Bearish reversal after uptrend</li>
+                            </ul>
+                            <h4>Triple Candlestick Patterns:</h4>
+                            <ul>
+                                <li><strong>Morning Star:</strong> Bullish reversal pattern</li>
+                                <li><strong>Evening Star:</strong> Bearish reversal pattern</li>
+                                <li><strong>Three White Soldiers:</strong> Strong bullish continuation</li>
+                                <li><strong>Three Black Crows:</strong> Strong bearish continuation</li>
+                            </ul>
+                            <div class="video-section">
+                                <h4>Educational Video:</h4>
+                                <div class="video-container">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/ul34Jfh-LOk?si=fYTO_ao8LF0uS-gE" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><em>Advanced Candlestick Patterns - Updated Video</em></p>
+                            </div>
+                        `,
+                        quiz: [
+                            {
+                                question: 'What does a Marubozu candlestick indicate?',
+                                options: ['Market indecision', 'Strong directional movement', 'Sideways market', 'Low volatility'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What does a Doji candlestick represent?',
+                                options: ['Strong buying pressure', 'Strong selling pressure', 'Market indecision', 'Trend continuation'],
+                                correct: 2
+                            },
+                            {
+                                question: 'Which pattern is a bullish reversal signal?',
+                                options: ['Evening Star', 'Three Black Crows', 'Morning Star', 'Dark Cloud Cover'],
+                                correct: 2
+                            },
+                            {
+                                question: 'What is the Bullish Engulfing pattern?',
+                                options: ['Small candle followed by larger bearish candle', 'Large bullish candle engulfing previous bearish candle', 'Two candles of same size', 'Three candles in uptrend'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What do Three White Soldiers indicate?',
+                                options: ['Bearish reversal', 'Bullish continuation', 'Market indecision', 'Sideways movement'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is the ideal position for a Hammer pattern?',
+                                options: ['At the top of an uptrend', 'At the bottom of a downtrend', 'In the middle of a range', 'During high volatility'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What does a long upper shadow indicate?',
+                                options: ['Strong buying pressure', 'Selling pressure at higher levels', 'Market equilibrium', 'Low trading volume'],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            stockmarket: {
+                title: 'Stock Market Knowledge',
+                lessons: [
+                    {
+                        title: 'Advanced Market Concepts',
+                        content: `
+                            <h3>Understanding Market Dynamics</h3>
+                            <p>Stock markets are influenced by various factors including economic indicators, company fundamentals, global events, and investor sentiment.</p>
+                            <h4>Market Participants:</h4>
+                            <ul>
+                                <li><strong>Retail Investors:</strong> Individual investors like you</li>
+                                <li><strong>Institutional Investors:</strong> Mutual funds, insurance companies, pension funds</li>
+                                <li><strong>Foreign Institutional Investors (FIIs):</strong> Foreign entities investing in Indian markets</li>
+                                <li><strong>Market Makers:</strong> Provide liquidity by continuously buying and selling</li>
+                            </ul>
+                            <h4>Key Market Terms:</h4>
+                            <ul>
+                                <li><strong>Bull Market:</strong> Rising market with optimistic sentiment</li>
+                                <li><strong>Bear Market:</strong> Falling market with pessimistic sentiment</li>
+                                <li><strong>Blue-chip Stocks:</strong> Shares of large, stable companies</li>
+                                <li><strong>Penny Stocks:</strong> Low-priced, high-risk stocks</li>
+                                <li><strong>Large-cap/Mid-cap/Small-cap:</strong> Company size classification</li>
+                            </ul>
+                            <h4>Trading Strategies:</h4>
+                            <ul>
+                                <li><strong>Value Investing:</strong> Buy undervalued stocks with strong fundamentals</li>
+                                <li><strong>Growth Investing:</strong> Invest in companies with high growth potential</li>
+                                <li><strong>Momentum Trading:</strong> Follow market trends and price movements</li>
+                                <li><strong>Contrarian Investing:</strong> Go against prevailing market trends</li>
+                            </ul>
+                            <div class="video-section">
+                                <h4>Educational Video:</h4>
+                                <div class="video-container">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/7hU5e6JqF4Y" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <p><em>Advanced Stock Market Concepts - Khan Academy</em></p>
+                            </div>
+                        `,
+                        quiz: [
+                            {
+                                question: 'What is a bull market?',
+                                options: ['A market dominated by bears', 'A rising market with optimistic sentiment', 'A market with no trading activity', 'A market with only bearish investors'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What are blue-chip stocks?',
+                                options: ['Low-priced risky stocks', 'Shares of small startup companies', 'Shares of large, stable companies', 'Stocks with blue color in charts'],
+                                correct: 2
+                            },
+                            {
+                                question: 'What is the difference between large-cap and small-cap stocks?',
+                                options: ['Large-cap are riskier than small-cap', 'Large-cap have bigger market capitalization', 'Large-cap are newer companies', 'Large-cap have lower growth potential'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is value investing?',
+                                options: ['Investing in overvalued stocks', 'Buying undervalued stocks with strong fundamentals', 'Investing only in growth stocks', 'Short-term trading strategy'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is momentum trading?',
+                                options: ['Trading against market trends', 'Following market trends and price movements', 'Long-term investment strategy', 'Risk-free trading approach'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What are penny stocks?',
+                                options: ['Stocks priced at ₹100', 'Low-priced, high-risk stocks', 'Government-issued stocks', 'Blue-chip company stocks'],
+                                correct: 1
+                            },
+                            {
+                                question: 'What is market capitalization?',
+                                options: ['Total cash a company has', 'Total number of shares outstanding times share price', 'Company\'s annual revenue', 'Total assets of a company'],
+                                correct: 1
                             }
                         ]
                     }
@@ -1552,12 +2733,55 @@
             }
         };
 
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggles = document.querySelectorAll('.theme-toggle');
+            const isDark = html.getAttribute('data-theme') === 'dark';
+
+            if (isDark) {
+                html.removeAttribute('data-theme');
+                themeToggles.forEach(toggle => {
+                    const icon = toggle.querySelector('i');
+                    if (icon) icon.className = 'fas fa-moon';
+                });
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeToggles.forEach(toggle => {
+                    const icon = toggle.querySelector('i');
+                    if (icon) icon.className = 'fas fa-sun';
+                });
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             setupNavigation();
             updateUI();
+            initializeTheme();
         });
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggles = document.querySelectorAll('.theme-toggle');
+
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggles.forEach(toggle => {
+                    const icon = toggle.querySelector('i');
+                    if (icon) icon.className = 'fas fa-sun';
+                });
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggles.forEach(toggle => {
+                    const icon = toggle.querySelector('i');
+                    if (icon) icon.className = 'fas fa-moon';
+                });
+            }
+        }
 
         function initializeApp() {
             // Load saved state from localStorage
@@ -1565,10 +2789,10 @@
             if (savedState) {
                 Object.assign(state, JSON.parse(savedState));
             }
-            
+
             // Initialize virtual trading
             initializeVirtualTrading();
-            
+
             // Set up modal closing
             document.querySelector('.close').addEventListener('click', closeModal);
             window.addEventListener('click', function(event) {
@@ -1610,12 +2834,15 @@
         }
 
         function updateUI() {
+            // Update auth button
+            updateAuthButton();
+
             // Update stats
             document.getElementById('lessonsCompleted').textContent = state.user.lessonsCompleted;
             document.getElementById('quizScore').textContent = state.user.quizScore + '%';
             document.getElementById('portfolioValue').textContent = '₹' + state.user.portfolioValue.toLocaleString();
             document.getElementById('learningStreak').textContent = state.user.learningStreak + ' days';
-            
+
             // Update module progress
             for (const module in state.modules) {
                 const progressElement = document.querySelector(`[data-module="${module}"] .progress`);
@@ -1623,8 +2850,33 @@
                     progressElement.style.width = state.modules[module].progress + '%';
                 }
             }
-            
+
+            // Update profile panel
+            updateProfilePanel();
+
             saveState();
+        }
+
+        function updateAuthButton() {
+            const authButtonDiv = document.getElementById('authButton');
+            if (state.user.isLoggedIn) {
+                authButtonDiv.innerHTML = `
+                    <div class="user-menu">
+                        <span class="user-name">${state.user.name}</span>
+                        <button class="login-btn" onclick="logout()">Logout</button>
+                    </div>
+                `;
+            } else {
+                authButtonDiv.innerHTML = '<button class="login-btn" onclick="showAuthModal()">Login</button>';
+            }
+        }
+
+        function logout() {
+            state.user.isLoggedIn = false;
+            state.user.name = 'Demo User';
+            state.user.email = 'demo@sebihub.com';
+            updateUI();
+            alert('Logged out successfully');
         }
 
         function saveState() {
@@ -1650,6 +2902,7 @@
                     <div class="quiz-section">
                         <h4>Quick Quiz</h4>
                         <div id="quizContainer"></div>
+                        <div class="quiz-buttons-spacing"></div>
                     </div>
                     <button class="btn-primary" onclick="completeLesson('${moduleName}')">Mark as Complete</button>
                 </div>
@@ -1732,6 +2985,10 @@
 
         function startVirtualTrading() {
             switchSection('practice');
+        }
+
+        function showSupport() {
+            alert('Contact Support:\n\nEmail: support@sebihub.com\nPhone: +91 9876543210\n\nWe\'re here to help with any questions about the SEBI Investor Education Hub!');
         }
 
         // Virtual trading functions
@@ -1887,9 +3144,202 @@
             alert(`Trade executed successfully! ${orderType} ${quantity} shares of ${symbol}`);
         }
 
+        function toggleProfilePanel() {
+            const panel = document.getElementById('profilePanel');
+            panel.classList.toggle('open');
+        }
+
+        function updateProfilePanel() {
+            // Update user info
+            document.getElementById('profileName').textContent = state.user.name;
+            document.getElementById('profileEmail').textContent = state.user.email;
+
+            // Calculate overall progress
+            const modules = Object.values(state.modules);
+            const totalProgress = modules.reduce((sum, module) => sum + module.progress, 0);
+            const avgProgress = Math.round(totalProgress / modules.length);
+
+            // Update progress bar
+            document.getElementById('profileProgressFill').style.width = avgProgress + '%';
+            document.getElementById('profileProgressPercent').textContent = avgProgress + '%';
+
+            // Update badge based on progress
+            const badgeElement = document.getElementById('progressBadge');
+            badgeElement.className = 'badge';
+            if (avgProgress >= 80) {
+                badgeElement.classList.add('gold');
+                badgeElement.textContent = 'Gold Learner';
+            } else if (avgProgress >= 60) {
+                badgeElement.classList.add('silver');
+                badgeElement.textContent = 'Silver Learner';
+            } else if (avgProgress >= 40) {
+                badgeElement.classList.add('bronze');
+                badgeElement.textContent = 'Bronze Learner';
+            } else {
+                badgeElement.textContent = 'Beginner';
+            }
+
+            // Update statistics
+            document.getElementById('profileLessons').textContent = state.user.lessonsCompleted;
+            document.getElementById('profileQuizScore').textContent = state.user.quizScore + '%';
+            document.getElementById('profilePortfolio').textContent = '₹' + state.user.portfolioValue.toLocaleString();
+            document.getElementById('profileStreak').textContent = state.user.learningStreak + ' days';
+        }
+
+        // Authentication functions
+        function showAuthModal() {
+            document.getElementById('authModal').style.display = 'flex';
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+            // Reset forms
+            document.getElementById('loginForm').reset();
+            document.getElementById('signupForm').reset();
+        }
+
+        function switchAuthTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.auth-tab[onclick="switchAuthTab('${tab}')"]`).classList.add('active');
+
+            // Update forms
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            document.getElementById(tab + 'Form').classList.add('active');
+        }
+
+        // Form handlers
+        document.addEventListener('submit', function(e) {
+            if (e.target.id === 'loginForm') {
+                e.preventDefault();
+                handleLogin();
+            } else if (e.target.id === 'signupForm') {
+                e.preventDefault();
+                handleSignup();
+            }
+        });
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Get stored users
+            const users = JSON.parse(localStorage.getItem('sebiUsers') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                state.user.isLoggedIn = true;
+                state.user.name = user.name;
+                state.user.email = user.email;
+                updateUI();
+                closeAuthModal();
+                alert('Login successful! Welcome back, ' + user.name);
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+
+        function handleSignup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Get stored users
+            const users = JSON.parse(localStorage.getItem('sebiUsers') || '[]');
+
+            // Check if user already exists
+            if (users.find(u => u.email === email)) {
+                alert('User with this email already exists');
+                return;
+            }
+
+            // Add new user
+            users.push({ name, email, password });
+            localStorage.setItem('sebiUsers', JSON.stringify(users));
+
+            // Auto login
+            state.user.isLoggedIn = true;
+            state.user.name = name;
+            state.user.email = email;
+            updateUI();
+            closeAuthModal();
+            alert('Account created successfully! Welcome, ' + name);
+        }
+
         function changeLanguage() {
             const lang = document.getElementById('language').value;
-            alert(`Language changed to ${lang}. This feature would translate content in a full implementation.`);
+            document.documentElement.setAttribute('data-lang', lang);
+
+            // Update title
+            document.title = translations[lang]?.title || translations.en.title;
+
+            // Update nav links
+            const navLinks = {
+                '#dashboard': 'dashboard',
+                '#learn': 'learn',
+                '#sebi-knowledge': 'sebiLaw',
+                '#algorithmic': 'algo',
+                '#practice': 'practice',
+                '#risk-assessment': 'riskAssessment'
+            };
+
+            for (const [href, key] of Object.entries(navLinks)) {
+                const link = document.querySelector(`.nav-link[href="${href}"]`);
+                if (link) link.textContent = translations[lang]?.[key] || translations.en[key];
+            }
+
+            // Update dashboard section
+            const dashboardH2 = document.querySelector('#dashboard h2');
+            if (dashboardH2) dashboardH2.textContent = translations[lang]?.welcome || translations.en.welcome;
+
+            const quickStartH3 = document.querySelector('#dashboard h3');
+            if (quickStartH3) quickStartH3.textContent = translations[lang]?.quickStart || translations.en.quickStart;
+
+            // Update stat cards
+            const statCards = document.querySelectorAll('.stat-card h3');
+            const statKeys = ['lessonsCompleted', 'quizScore', 'virtualPortfolio', 'learningStreak'];
+            statCards.forEach((card, index) => {
+                if (statKeys[index]) card.textContent = translations[lang]?.[statKeys[index]] || translations.en[statKeys[index]];
+            });
+
+            // Update action cards
+            const actionCards = document.querySelectorAll('.action-card h4');
+            const actionKeys = ['stockMarketBasics', 'riskManagement', 'virtualTrading', 'algorithmicTrading'];
+            actionCards.forEach((card, index) => {
+                if (actionKeys[index]) card.textContent = translations[lang]?.[actionKeys[index]] || translations.en[actionKeys[index]];
+            });
+
+            // Update support card
+            const supportCard = document.querySelector('.action-card h4');
+            if (supportCard && supportCard.textContent.includes('Support')) {
+                supportCard.textContent = translations[lang]?.support || translations.en.support;
+            }
+
+            // Update section titles
+            const sectionTitles = {
+                '#learn h2': 'interactiveLearning',
+                '#sebi-knowledge h2': 'sebiLawTitle',
+                '#algorithmic h2': 'algorithmicTitle',
+                '#candlestick h2': 'candlestickTitle',
+                '#risk-assessment h2': 'riskToolTitle',
+                '#practice h2': 'virtualTradingTitle'
+            };
+
+            for (const [selector, key] of Object.entries(sectionTitles)) {
+                const element = document.querySelector(selector);
+                if (element) element.textContent = translations[lang]?.[key] || translations.en[key];
+            }
+
+            // For other languages, keep English
+            if (!translations[lang]) {
+                alert(`Language changed to ${lang}. Translation not available for this language.`);
+            }
         }
 
         // Function to toggle quiz answers
@@ -1903,6 +3353,14 @@
         }
 
         // Risk Assessment Tool Calculation
+        function animateLogo() {
+            const icon = document.querySelector('.nav-logo i');
+            icon.classList.add('spin');
+            setTimeout(() => {
+                icon.classList.remove('spin');
+            }, 1000);
+        }
+
         function calculateRisk() {
             const timeHorizon = document.getElementById('timeHorizon').value;
             const reaction = document.getElementById('reaction').value;
