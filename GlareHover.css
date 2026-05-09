@@ -1,0 +1,56 @@
+.glare-hover {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--gh-br, 10px);
+  background: var(--gh-bg, transparent);
+  width: var(--gh-width, auto);
+  height: var(--gh-height, auto);
+  border: 1px solid var(--gh-border, transparent);
+  transition: box-shadow 0.3s ease;
+}
+
+.glare-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--gh-size, 250%);
+  height: 100%;
+  background: linear-gradient(
+    var(--gh-angle, -45deg),
+    transparent 0%,
+    var(--gh-rgba, rgba(255, 255, 255, 0.5)) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(var(--gh-angle, -45deg));
+  transition: transform var(--gh-duration, 650ms) ease;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.glare-hover:hover::before {
+  transform: translateX(100%) skewX(var(--gh-angle, -45deg));
+  opacity: 1;
+}
+
+.glare-hover--play-once::before {
+  animation: glareOnce var(--gh-duration, 650ms) ease forwards;
+}
+
+@keyframes glareOnce {
+  0% {
+    transform: translateX(-100%) skewX(var(--gh-angle, -45deg));
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) skewX(var(--gh-angle, -45deg));
+    opacity: 0;
+  }
+}
+
+.glare-hover:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
