@@ -16,7 +16,7 @@ This project combines educational content and hands-on practice in a polished, m
 - Virtual trading platform with stock search, trade execution flow, and holdings tracking.
 - Login, sign-up, profile modal, and progress tracking UI.
 - Light/dark theme switching and animated background effects.
-- Responsive, visually rich interface with particles, hover effects, and motion-driven sections.
+- Responsive, visually rich interface with hover effects and motion-driven sections.
 
 ## Tech Stack
 
@@ -24,30 +24,23 @@ This project combines educational content and hands-on practice in a polished, m
 - React 18 via CDN
 - Chart.js for visualizations
 - GSAP for animation and scroll effects
-- OGL for WebGL-based particle rendering
 - Font Awesome for icons
 - Google Fonts for typography
 
 ## Project Structure
 
-- [index.html](index.html) - Main application shell, UI sections, and app logic.
-- [Aurora.js](Aurora.js) - Aurora particle effect component.
-- [Aurora.css](Aurora.css) - Styles for the aurora effect.
-- [particles.js](particles.js) - Particle background implementation.
-- [particles.css](particles.css) - Particle layout and presentation styles.
-- [ogl.js](ogl.js) - OGL library bundle used by the particle system.
-- [ogl_test.js](ogl_test.js) - OGL test implementation.
-- [GlareHover.css](GlareHover.css) - Hover-glare interaction styles.
+- [index.html](index.html) — Main application shell, all UI sections, styles, and app logic.
+- [Aurora.js](Aurora.js) — Canvas 2D particle background component (React).
+- [particles.css](particles.css) — Particle container layout styles.
+- [GlareHover.css](GlareHover.css) — Hover-glare interaction styles.
 
 ## How To Run
 
-This is a static front-end project, so there is no build step.
+This is a static front-end project with no build step.
 
 1. Open the folder in VS Code or any editor.
 2. Launch [index.html](index.html) in a browser, or use a local server extension such as Live Server.
 3. Make sure your browser can load the external CDN assets used by the page.
-
-If you want the smoothest experience during development, run it through a local server instead of opening the file directly.
 
 ## What You Can Explore
 
@@ -60,9 +53,9 @@ If you want the smoothest experience during development, run it through a local 
 ## Customization Ideas
 
 - Update lesson content inside [index.html](index.html).
-- Tune particle behavior in [Aurora.js](Aurora.js) or [particles.js](particles.js).
-- Adjust visual styling in [Aurora.css](Aurora.css), [particles.css](particles.css), and [GlareHover.css](GlareHover.css).
-- Replace the demo data, charts, and virtual trading values with your own data model if you want to turn this into a production-ready product.
+- Tune particle behavior in [Aurora.js](Aurora.js).
+- Adjust visual styling in [particles.css](particles.css) and [GlareHover.css](GlareHover.css).
+- Replace the demo data, charts, and virtual trading values with your own data model to turn this into a production-ready product.
 
 ## Notes
 
