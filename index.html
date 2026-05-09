@@ -316,6 +316,7 @@
         /* Main Content Adjustment */
         .main-content {
             padding: 20px 40px 20px 40px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         /* User Details in Top Right */
@@ -564,14 +565,6 @@
             color: var(--primary);
         }
 
-        .progress-bar {
-            height: 10px;
-            background: var(--light-gray);
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--success), var(--accent));
@@ -601,13 +594,6 @@
         .badge.bronze {
             background: linear-gradient(135deg, #cd7f32, #d2b48c);
             color: #fff;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
         }
 
         .stat-item {
@@ -898,21 +884,11 @@
             color: var(--text-color);
         }
         
-        /* Main Content */
-        .main-content {
-            /* This is a duplicate rule, the primary one is at line 336. Keeping for animation. */
-            animation: fadeInUp 0.8s ease-out;
-        }
-        
         .section {
-            display: none; /* Handled by .section.active */
+            display: none;
             padding: 0;
         }
-        
-        .section.active {
-            display: block;
-        }
-        
+
         /* Dashboard */
         #dashboard .container {
             padding-top: 0;
@@ -928,7 +904,7 @@
             border-bottom: 2px solid var(--border-color);
             position: relative;
             text-align: center;
-            overflow: hidden; /* Hide characters before animation */
+            overflow: hidden;
         }
 
         .stats-grid {
@@ -3265,17 +3241,15 @@
 
             const activeHeading = document.querySelector('.section.active > .container > h2:first-child');
             if (!activeHeading) return;
-            
-            // Kill previous ScrollTriggers to prevent memory leaks
+
             ScrollTrigger.getAll().forEach(st => st.kill());
 
-            // Revert any previous split to avoid conflicts
             if (activeHeading._split) {
                 activeHeading._split.revert();
             }
 
             const split = new SplitText(activeHeading, { type: "chars,words" });
-            activeHeading._split = split; // Store instance for reverting
+            activeHeading._split = split;
 
             gsap.from(split.chars, {
                 scrollTrigger: {
@@ -3292,16 +3266,13 @@
         }
 
         function initializeApp() {
-            // Load saved state from localStorage
             const savedState = localStorage.getItem('sebiEducationState');
             if (savedState) {
                 Object.assign(state, JSON.parse(savedState));
             }
 
-            // Initialize virtual trading
             initializeVirtualTrading();
 
-            // Set up modal closing
             document.querySelector('.close').addEventListener('click', closeModal);
             window.addEventListener('click', function(event) {
                 if (event.target == document.getElementById('learningModal')) {
@@ -3309,12 +3280,10 @@
                 }
             });
 
-            // Initialize dashboard charts on load since dashboard is default
             initializeCharts();
         }
 
         function setupNavigation() {
-            // This will include sidebar links and quick action cards that switch sections
             const navigationElements = document.querySelectorAll('.nav-link, .action-card[onclick^="startLesson"], .action-card[onclick^="startVirtualTrading"]');
 
             navigationElements.forEach(link => {
@@ -3339,7 +3308,6 @@
             });
         }
 
-        // Update toggleSidebar for bottom nav
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const toggleBtnIcon = document.querySelector('.sidebar-toggle i');
@@ -3504,16 +3472,13 @@
         }
 
         function updateUI() {
-            // Update auth button
             updateAuthButton();
 
-            // Update stats
             document.getElementById('lessonsCompleted').textContent = state.user.lessonsCompleted;
             document.getElementById('quizScore').textContent = state.user.quizScore + '%';
             document.getElementById('portfolioValue').textContent = '₹' + state.user.portfolioValue.toLocaleString();
             document.getElementById('learningStreak').textContent = state.user.learningStreak + ' days';
 
-            // Update module progress
             for (const module in state.modules) {
                 const progressElement = document.querySelector(`[data-module="${module}"] .progress`);
                 if (progressElement) {
@@ -3521,9 +3486,7 @@
                 }
             }
 
-            // Update profile panel
             updateProfilePanel();
-
             saveState();
         }
 
@@ -3554,7 +3517,6 @@
             localStorage.setItem('sebiEducationState', JSON.stringify(state));
         }
 
-        // Learning modules
         function openModule(moduleName) {
             const modal = document.getElementById('learningModal');
             const content = document.getElementById('lessonContent');
@@ -3664,7 +3626,6 @@
             alert('Contact Support:\n\nEmail: divyam11nov@gmail.com\nPhone: 9026620586\n\nWe\'re here to help with any questions about the SEBI Investor Education Hub!');
         }
 
-        // Virtual trading functions
         function initializeVirtualTrading() {
             if (!state.user.holdings) {
                 state.user.holdings = {};
@@ -3756,7 +3717,6 @@
             document.getElementById('orderForm').style.display = 'block';
         }
 
-        // Form handling
         document.addEventListener('submit', function(e) {
             if (e.target.id === 'tradeForm') {
                 e.preventDefault();
@@ -3817,26 +3777,17 @@
             alert(`Trade executed successfully! ${orderType} ${quantity} shares of ${symbol}`);
         }
 
-        function toggleProfilePanel() {
-            const panel = document.getElementById('profilePanel');
-            panel.classList.toggle('open');
-        }
-
         function updateProfilePanel() {
-            // Update user info
             document.getElementById('profileName').textContent = state.user.name;
             document.getElementById('profileEmail').textContent = state.user.email;
 
-            // Calculate overall progress
             const modules = Object.values(state.modules);
             const totalProgress = modules.reduce((sum, module) => sum + module.progress, 0);
             const avgProgress = Math.round(totalProgress / modules.length);
 
-            // Update progress bar
             document.getElementById('profileProgressFill').style.width = avgProgress + '%';
             document.getElementById('profileProgressPercent').textContent = avgProgress + '%';
 
-            // Update badge based on progress
             const badgeElement = document.getElementById('progressBadge');
             badgeElement.className = 'badge';
             if (avgProgress >= 80) {
@@ -3852,60 +3803,49 @@
                 badgeElement.textContent = 'Beginner';
             }
 
-            // Update statistics
             document.getElementById('profileLessons').textContent = state.user.lessonsCompleted;
             document.getElementById('profileQuizScore').textContent = state.user.quizScore + '%';
             document.getElementById('profilePortfolio').textContent = '₹' + state.user.portfolioValue.toLocaleString();
             document.getElementById('profileStreak').textContent = state.user.learningStreak + ' days';
         }
 
-        // Profile modal functions
         function toggleProfileModal() {
             const modal = document.getElementById('profileModal');
             modal.classList.toggle('open');
-            updateProfilePanel(); // Ensure data is fresh
+            updateProfilePanel();
         }
 
-        // Close modal on outside click
         document.addEventListener('click', function(event) {
             const modal = document.getElementById('profileModal');
-            const content = document.querySelector('.profile-modal-content');
             if (event.target === modal) {
                 toggleProfileModal();
             }
         });
 
-        // Add click handler to user-details
         document.addEventListener('DOMContentLoaded', function() {
             const userDetails = document.getElementById('userDetails');
             if (userDetails) {
                 userDetails.addEventListener('click', toggleProfileModal);
-            } 
+            }
         });
 
-        // Authentication functions
         function showAuthModal() {
             document.getElementById('authModal').style.display = 'flex';
         }
 
         function closeAuthModal() {
             document.getElementById('authModal').style.display = 'none';
-            // Reset forms
             document.getElementById('loginForm').reset();
             document.getElementById('signupForm').reset();
         }
 
         function switchAuthTab(tab) {
-            // Update tab buttons
             document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.auth-tab[onclick="switchAuthTab('${tab}')"]`).classList.add('active');
-
-            // Update forms
             document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
             document.getElementById(tab + 'Form').classList.add('active');
         }
 
-        // Form handlers
         document.addEventListener('submit', function(e) {
             if (e.target.id === 'loginForm') {
                 e.preventDefault();
@@ -4126,7 +4066,6 @@
         }
     </script>
     <script>
-        // Render Aurora particles background using 2D canvas version
         if (window.Aurora && ReactDOM) {
             const container = document.getElementById('particles-container');
             if (container) {

@@ -1,7 +1,6 @@
 const { useEffect, useRef } = React;
 
-// Enhanced Aurora particle effect with mouse interaction and props
-const Aurora = ({ 
+const Aurora = ({
   particleCount = 100, 
   particleSpread = 10, 
   speed = 0.1, 
@@ -22,7 +21,6 @@ const Aurora = ({
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Map colorStops to HSL for aurora effect
     const particleColors = colorStops.map(color => {
       const hex = color.replace('#', '');
       const r = parseInt(hex.substr(0, 2), 16) / 255;
@@ -45,7 +43,6 @@ const Aurora = ({
       return `hsl(${h * 360}, ${s * 100}%, ${l * 100}%)`;
     });
 
-    // Particle array
     const particles = [];
     const alphaParticles = blend > 0.5;
     for (let i = 0; i < particleCount; i++) {
@@ -61,22 +58,18 @@ const Aurora = ({
       });
     }
 
-    // Mouse move handler
     const handleMouseMove = (e) => {
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    let frameCount = 0;
-
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // Transparent clear
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const mouse = mouseRef.current;
 
       particles.forEach(particle => {
-        // Mouse influence: Attract particles towards mouse with damping
         const dx = mouse.x - particle.x;
         const dy = mouse.y - particle.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -87,29 +80,25 @@ const Aurora = ({
           particle.speedY += (dy / distance) * force * 0.25;
         }
 
-        // Enhanced random movement: Periodic subtle perturbations for lively drifting
-        if (Math.random() < 0.02) { // ~2% chance per frame for randomness
+        if (Math.random() < 0.02) {
           particle.speedX += (Math.random() - 0.5) * 0.2;
           particle.speedY += (Math.random() - 0.5) * 0.2;
         }
 
-        // Update position with damping for smooth movement
-        particle.speedX *= 0.98; // Friction
+        particle.speedX *= 0.98;
         particle.speedY *= 0.98;
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
-        // Wrap around edges
         if (particle.x > canvas.width) particle.x = 0;
         if (particle.x < 0) particle.x = canvas.width;
         if (particle.y > canvas.height) particle.y = 0;
         if (particle.y < 0) particle.y = canvas.height;
 
-        // Draw particle with enhanced glow for visibility
         ctx.save();
         ctx.globalAlpha = particle.opacity;
         ctx.fillStyle = particle.color;
-        ctx.shadowBlur = alphaParticles ? 30 * blend : 10; // Enhanced if alphaParticles
+        ctx.shadowBlur = alphaParticles ? 30 * blend : 10;
         ctx.shadowColor = particle.color;
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
@@ -117,13 +106,11 @@ const Aurora = ({
         ctx.restore();
       });
 
-      frameCount++;
       animationRef.current = requestAnimationFrame(animate);
     };
 
     animate();
 
-    // Resize handler
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -152,5 +139,4 @@ const Aurora = ({
   });
 };
 
-// Expose to global for UMD usage
 window.Aurora = Aurora;
