@@ -62,6 +62,3 @@ This is a static front-end project with no build step.
 - The app depends on external CDNs for React, Chart.js, GSAP, Font Awesome, and Google Fonts.
 - Some features are demo-oriented and may need backend integration for real authentication, persistent storage, or live market data.
 
-## License
-
-No license file is currently included. Add one before publishing or sharing the project publicly.
